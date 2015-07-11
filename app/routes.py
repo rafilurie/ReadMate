@@ -1,24 +1,34 @@
 import os, time
 from app import app, db
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect
+from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash
 from flask_user import login_required
 from werkzeug import secure_filename
+from models import *
 
 @app.route("/")
 def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
-#@login_required
+# @login_required
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]
         if file:
             try:
-                # store file in DB - DON'T SAVE
-                filename = secure_filename(file.filename) # change this to photo.id
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                # save file in DB after it is in file system
+                # add to database
+                extension = file.filename.rsplit(".", 1)[1]
+                db_file = Photo(extension, 1) # TODO: change this to the current user's id
+                db.session.add(db_file)
+                db.session.flush()
+                print db_file.id
+                db_comment = Comment(request.form["content"], db_file.id)
+                db.session.add(db_comment)
+                db.session.commit()
+
+                # save to file system
+                filename = "{0}.{1}".format(db_file.id, extension)
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
                 flash("Your photo was uploaded")
                 return redirect(url_for("detail"))
             except:
@@ -28,17 +38,21 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        session['user_id'] = form.user.id
-        return redirect(url_for('index'))
-    return render_template('login.html', form=form)
+        session["user_id"] = form.user.id
+        return redirect(url_for("index"))
+    return render_template("login.html", form=form)
 
 @app.route("/welcome")
 def welcome():
     return render_template("index.html")
+
+@app.route("/empty")
+def empty():
+    return render_template("empty.html")
 
 @app.route("/photos")
 #@login_required
