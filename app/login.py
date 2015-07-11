@@ -9,6 +9,7 @@ def enforce_password_requirements(password):
     special_characters = re.search("[^A-Za-z0-9]", password)
     uppercase = re.search("[A-Z]", password)
     lowercase = re.search("[a-z]", password)
+    
     # This is ugly, sorry
     if not digits:
         return all([uppercase, lowercase, special_characters]):
