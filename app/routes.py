@@ -4,13 +4,12 @@ from flask import render_template, request, jsonify, abort, Response, url_for, r
 from flask_user import login_required
 from werkzeug import secure_filename
 
-
 @app.route("/")
 def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
-@login_required
+#@login_required
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]
@@ -34,7 +33,7 @@ def welcome():
     return render_template("index.html")
 
 @app.route("/photos")
-@login_required
+#@login_required
 def photos():
 	return render_template("photos.html")
 
