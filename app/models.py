@@ -89,7 +89,7 @@ class Comment(db.Model):
     def __repr__(self):
         return '<Comment %r, %r>' % (self.content, self.photo_id)
 
-    def __init__(self, name, photo_id):
+    def __init__(self, content, photo_id):
         self.content = content
         self.photo_id = photo_id
         self.created = datetime.now()
