@@ -37,7 +37,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['user_id'] = form.user.id
-        return redirect(url_for('index'))
+        return redirect(url_for('empty'))
     return render_template('login.html', form=form)
 
 @app.route("/welcome")
@@ -49,9 +49,10 @@ def welcome():
 def photos():
 	return render_template("photos.html")
 
-@app.route("/detail")
+@app.route("/detail/<id>")
 @login_required
-def detail():
+def detail(id):
+    photo = Photo.query.filter_by(id=id).first()
     name = session.get('name', '')
     room = session.get('room', '')
     if name == '' or room == '':
