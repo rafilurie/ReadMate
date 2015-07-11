@@ -1,13 +1,16 @@
 import os, time
 from app import app, db
 from flask import render_template, request, jsonify, abort, Response, url_for, redirect
+from flask_user import login_required
 from werkzeug import secure_filename
+
 
 @app.route("/")
 def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
+@login_required
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]
@@ -23,13 +26,11 @@ def upload_file():
 def welcome():
     return render_template("index.html")
 
-# private, associated with the user
 @app.route("/photos")
+@login_required
 def photos():
 	return render_template("photos.html")
 
-# private, associated with the user
-# as of 11:11am, going to associate chat with the detail view
 @app.route("/detail")
 def detail():
 	return render_template("detail.html")
