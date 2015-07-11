@@ -46,7 +46,7 @@ def photos():
 	return render_template("photos.html")
 
 @app.route("/detail")
-@login_required
+#@login_required
 def detail():
 	return render_template("detail.html")
 
