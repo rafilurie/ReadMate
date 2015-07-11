@@ -19,16 +19,16 @@ class User(db.Model, UserMixin):
 
     # What is this?
     is_enabled = db.Column(db.Boolean(), nullable=False, server_default='0')
-    
+
     first_name = db.Column(db.String(100), nullable=False, server_default='')
     last_name = db.Column(db.String(100), nullable=False, server_default='')
- 
+
     photos = db.relationship('Photo', backref='user', lazy='dynamic')
-    perpetrators = db.relationship('Perpetrator', backref='user')
- 
+    perpetrators = db.relationship('Perpetrator', backref='user', lazy='dynamic')
+
     def is_active(self):
         return self.is_enabled
-    
+
     def __repr__(self):
         return '<User %r>' % (self.username)
 
@@ -55,7 +55,7 @@ class Perpetrator(db.Model):
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    
+
     comments = db.relationship('Comment', secondary=words, backref=db.backref('sets', lazy='joined'))
 
     created = db.Column(db.DateTime())
@@ -78,7 +78,7 @@ class Photo(db.Model):
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100000))
-    
+
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
@@ -89,4 +89,4 @@ class Comment(db.Model):
 
     def __init__(self, name, photo_id):
         self.content = content
-        self.photo_id = photo_id
+        slf.photo_id = photo_id
