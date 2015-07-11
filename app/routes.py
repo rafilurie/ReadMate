@@ -12,11 +12,18 @@ def upload_file():
     if request.method == "POST":
         file = request.files["file"]
         if file:
-            # store file in DB - DON'T SAVE
-            filename = secure_filename(file.filename) # change this to photo.id
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # save file in DB after it is in file system
-            return redirect(url_for("detail"))
+            try:
+                # store file in DB - DON'T SAVE
+                filename = secure_filename(file.filename) # change this to photo.id
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                # save file in DB after it is in file system
+                flash("Your photo was uploaded")
+                return redirect(url_for("detail"))
+            except:
+                error = "Error saving file, please try again."
+        else:
+            error = "No photo was supplied."
+        return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
 @app.route("/welcome")
