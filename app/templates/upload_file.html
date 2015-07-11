@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1>Share a photo</h1>
+
+{% if error %}
+  <p class=error><strong>Error:</strong> {{ error }}
+{% endif %}
+
 <form action="" method=post enctype=multipart/form-data>
   <input type="file" name="file">
   <input type="submit" value="Upload">
