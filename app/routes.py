@@ -28,6 +28,14 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        session['user_id'] = form.user.id
+        return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
 @app.route("/welcome")
 def welcome():
     return render_template("index.html")
@@ -38,5 +46,12 @@ def photos():
 	return render_template("photos.html")
 
 @app.route("/detail")
+@login_required
 def detail():
 	return render_template("detail.html")
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("welcome"))

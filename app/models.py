@@ -17,7 +17,6 @@ class User(db.Model, UserMixin):
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
-    # What is this?
     is_enabled = db.Column(db.Boolean(), nullable=False, server_default='0')
 
     first_name = db.Column(db.String(100), nullable=False, server_default='')
@@ -65,7 +64,7 @@ class Photo(db.Model):
     filename = db.Column(db.String(1000))
     name = db.Column(db.String(40))
 
-    # the user associated with this perpetrator
+    # the user associated with this photo
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
