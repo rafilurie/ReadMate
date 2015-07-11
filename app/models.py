@@ -1,7 +1,7 @@
 from app import db
 
 from flask_user import UserMixin
-from sqlalchemy import Column, ForeignKey, Integer, String
+# from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 
@@ -56,7 +56,8 @@ class Perpetrator(db.Model):
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
-    comments = db.relationship('Comment', secondary=words, backref=db.backref('sets', lazy='joined'))
+    comments = db.relationship('Comment', backref=db.backref('photos', lazy='joined'),
+                               lazy='dynamic')
 
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
