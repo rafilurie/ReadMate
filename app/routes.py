@@ -1,8 +1,11 @@
 import os, time
 from app import app, db
 from flask import render_template, request, jsonify, abort, Response, url_for, redirect
+from flask.ext.login import login_user, logout_user
 from flask_user import login_required
 from werkzeug import secure_filename
+
+from login import LoginForm
 
 
 @app.route("/")
@@ -49,6 +52,10 @@ def photos():
 @app.route("/detail")
 @login_required
 def detail():
+    name = session.get('name', '')
+    room = session.get('room', '')
+    if name == '' or room == '':
+        return redirect(url_for())
 	return render_template("detail.html")
 
 @app.route("/logout")
