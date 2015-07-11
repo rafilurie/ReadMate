@@ -44,8 +44,10 @@ def upload_file():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print "WOOO"
         session['user_id'] = form.user.id
-        return redirect(url_for('empty'))
+        return redirect(url_for("empty"))
+    print "mEh"
     return render_template('login.html', form=form)
 
 @app.route("/welcome")
