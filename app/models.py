@@ -44,9 +44,9 @@ class Photo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Set %r, %r>' % (self.name, self.user_id)
+        return '<Photo %r, %r>' % (self.name, self.user_id)
 
-    def __init__(self,name,user_id):
+    def __init__(self, name, user_id):
         self.name = name
         self.user_id = user_id
 
@@ -59,7 +59,12 @@ class Comment(db.Model):
 
     photo_id = db.Column(db.Integer)
 
+    def __repr__(self):
+        return '<Comment %r, %r>' % (self.content, self.photo_id)
 
+    def __init__(self, name, photo_id):
+        self.content = content
+        self.photo_id = photo_id
 
 
 
