@@ -2,39 +2,57 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<link href= '{{ url_for("static", filename="index.css") }}' rel='stylesheet' />
+<link href= '{{ url_for("static", filename="empty.css") }}' rel='stylesheet' />
 <script src='{{ url_for("static", filename="signup_btn.js") }}'></script>
 
-<div class="container-fluid non-nav" id="index">
-	<div class='col-md-7'>
-		<div class="row">
-			<div id="header-text" class='col-md-offset-2'>
-				<h1>No one deserves<br>to be harassed, bitch.</h1>
-				<h2>Collect screenshots of conversations that<br>make your uncomfortable. Download a<br>history when you're ready to report.</h1>
-			</div>
+<!-- NAVIGATION BAR -->
+<nav class="navbar navbar-default navbar-fixed-top navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a id="home-btn" class="navbar-brand custom-nav" href="/welcome">PRODCUT NAME</a>
 		</div>
-		<img class="col-md-offset-2" id="iphone-img" src="static/iphone.png" alt="iPhone">
-		
-	</div>
-	<div class='col-md-5'>
-		<div id="homepage-box">
-			<div class="box-content">
-				<button id="signup-btn" type="">Sign Up</button>
-				<button id="login-btn" type="">Login</button>
-				<br>
-				<img id="signup-img" src="static/signup.jpg" alt="Sign Up">
-				<div id="privacy-assurance">
-					We respect your privacy and will never<br>share your information with anyone.
-				</div>
-				<form>
-					<input class="login-input" type="text" name="email" placeholder=" Email address">
-					<input class="login-input" type="password" name="pswd" placeholder=" Password">
-					<br>
-					<input id="login-submit-btn" type="submit" value="Get Started">
-				</form>
-			</div>
+
+		<div>
+			<ul class="nav navbar-nav navbar-right">
+				<li id="signout"><a class ="custom-nav" href="/welcome">SIGN OUT</a></li>
+			</ul>
 		</div>
 	</div>
+</nav>
+<div class="container-fluid non-nav" id="empty">
+	<div class="col-md-offset-10">
+		<button id="upload-btn" type="">UPLOAD A PHOTO</button>
+	</div>
+	<hr>
+	<h1 class="col-md-8 col-md-offset-2"> This is a header that reenforces the value prop and reassures privacy.</h1>
+	<div class="row valueprops">
+		<div class="col-md-3 col-md-offset-1 value">
+			<div class="row photo">
+				<img class="img" id="photo-upload-img" src="static/photo-upload.png" alt="Photo Upload">
+			</div>
+			<div class="row image-blurb">
+				Upload screenshots of<br>conversations that made<br>you feel uncomfortable.
+			</div>
+		</div>
+		<div class="col-md-3 value">
+			<div class="row photo">
+				<img class="img" id="question-icon-img" src="static/question-icon.png" alt="Question">
+			</div>
+			<div class="row image-blurb">
+				Ask trained counselors for<br>help with responding to<br>inappropriate messages.
+			</div>
+		</div>
+		<div class="col-md-3 value">
+			<div class="row photo">
+				<img class="img" id="pdf-icon-img" src="static/pdf-icon.png" alt="PDF Icon">
+			</div>
+			<div class="row image-blurb">
+				Download a PDF of your<br>conversations when you're<br>ready to report.
+			</div>
+		</div>
+
+	</div>
+
 </div>
 
 {% endblock %}
