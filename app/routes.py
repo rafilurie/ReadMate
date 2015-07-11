@@ -1,24 +1,31 @@
 import os, time
 from app import app, db
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect
+from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash
 from flask_user import login_required
 from werkzeug import secure_filename
+from models import *
 
 @app.route("/")
 def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
-#@login_required
+# @login_required
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]
         if file:
             try:
-                # store file in DB - DON'T SAVE
-                filename = secure_filename(file.filename) # change this to photo.id
+                # add to database
+                extension = file.filename.rsplit('.', 1)[1]
+                db_file = Photo(extension, 1) # TODO: change this to the current user's id
+                db.session.add(db_file)
+                db.session.commit()
+                db.session.flush()
+
+                # save to file system
+                filename = "{0}.{1}".format(db_file.id, extension)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                # save file in DB after it is in file system
                 flash("Your photo was uploaded")
                 return redirect(url_for("detail"))
             except:
