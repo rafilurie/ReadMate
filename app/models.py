@@ -24,12 +24,28 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False, server_default='')
  
     photos = db.relationship('Photo', backref='user', lazy='dynamic')
+    perpetrators = db.relationship('Perpetrator', backref='user')
  
     def is_active(self):
         return self.is_enabled
     
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+
+class Perpetrator(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    created = db.Column(db.DateTime())
+    deleted = db.Column(db.DateTime())
+
+    name = db.Column(db.String(40))
+    nickname = db.Column(db.String(40), optional=True)
+
+    user_associated_with_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+
+
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +66,7 @@ class Photo(db.Model):
         self.name = name
         self.user_id = user_id
 
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(100000))
@@ -57,7 +74,7 @@ class Comment(db.Model):
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
-    photo_id = db.Column(db.Integer)
+    photo_id = db.Column(db.Integer, db.ForeignKey('photo.id'))
 
     def __repr__(self):
         return '<Comment %r, %r>' % (self.content, self.photo_id)
@@ -65,7 +82,3 @@ class Comment(db.Model):
     def __init__(self, name, photo_id):
         self.content = content
         self.photo_id = photo_id
-
-
-
-
