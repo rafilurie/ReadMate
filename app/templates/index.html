@@ -1,5 +1,22 @@
 {% extends "layout.html" %}
 
 {% block content %}
-index/welcome page
+
+<div class="container-fluid non-nav">
+	<div class='col-md-8'>
+		No one deserves to be harassed or abused.
+	</div>
+	<div class='col-md-4'>
+		<form id="login">
+			Email:<br>
+			<input type="text" name="email" value="Email">
+			<br>
+			Password:<br>
+			<input type="password" name="pswd" value="Password">
+			<br><br>
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+</div>
+
 {% endblock %}
