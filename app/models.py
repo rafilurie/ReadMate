@@ -1,7 +1,7 @@
 from app import db
 
 from flask_user import UserMixin
-from sqlalchemy import Column, ForeignKey, Integer, String
+# from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 
@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(100), nullable=False, server_default='')
 
     photos = db.relationship('Photo', backref='user', lazy='dynamic')
+    perpetrators = db.relationship('Perpetrator', backref='user', lazy='dynamic')
 
     def is_active(self):
         return self.is_enabled
@@ -31,24 +32,49 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User %r>' % (self.username)
 
+
+class Perpetrator(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    created = db.Column(db.DateTime())
+    deleted = db.Column(db.DateTime())
+
+    name = db.Column(db.String(40), nullable=False)
+    display_name = db.Column(db.String(40))
+
+    # the user associated with this perpetrator
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Perpetrator %r, %r>' % (self.name, self.user_id)
+
+    def __init__(self, name, user__id):
+        self.name = name
+        self.user_id = user_id
+
+
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
-    comments = db.relationship('Comment', secondary=words, backref=db.backref('sets', lazy='joined'))
+    comments = db.relationship('Comment', backref=db.backref('photos', lazy='joined'),
+                               lazy='dynamic')
 
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
     filename = db.Column(db.String(1000))
     name = db.Column(db.String(40))
+
+    # the user associated with this perpetrator
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Set %r, %r>' % (self.name, self.user_id)
+        return '<Photo %r, %r>' % (self.name, self.user_id)
 
-    def __init__(self,name,user_id):
+    def __init__(self, name, user_id):
         self.name = name
         self.user_id = user_id
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,4 +83,11 @@ class Comment(db.Model):
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
-    photo_id = db.Column(db.Integer)
+    photo_id = db.Column(db.Integer, db.ForeignKey('photo.id'))
+
+    def __repr__(self):
+        return '<Comment %r, %r>' % (self.content, self.photo_id)
+
+    def __init__(self, name, photo_id):
+        self.content = content
+        slf.photo_id = photo_id
