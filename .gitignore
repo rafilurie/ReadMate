@@ -2,3 +2,4 @@ venv/*
 app.db
 *.pyc
 uploads/*
+db_repository/versions/*

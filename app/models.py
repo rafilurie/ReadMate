@@ -1,9 +1,8 @@
 from app import db
-
 from flask_user import UserMixin
-# from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +49,7 @@ class Perpetrator(db.Model):
     def __init__(self, name, user__id):
         self.name = name
         self.user_id = user_id
+        self.created = datetime.now()
 
 
 class Photo(db.Model):
@@ -59,20 +59,22 @@ class Photo(db.Model):
                                lazy='dynamic')
 
     created = db.Column(db.DateTime())
+    when = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
-    filename = db.Column(db.String(1000))
-    name = db.Column(db.String(40))
+    extension = db.Column(db.String(1000))
 
     # the user associated with this photo
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Photo %r, %r>' % (self.name, self.user_id)
+        return '<Photo %r, %r>' % (self.extension, self.user_id)
 
-    def __init__(self, name, user_id):
-        self.name = name
+    def __init__(self, extension, user_id, when=datetime.now()):
+        self.extension = extension
         self.user_id = user_id
+        self.created = datetime.now()
+        self.when = when
 
 
 class Comment(db.Model):
@@ -89,4 +91,5 @@ class Comment(db.Model):
 
     def __init__(self, name, photo_id):
         self.content = content
-        slf.photo_id = photo_id
+        self.photo_id = photo_id
+        self.created = datetime.now()
