@@ -15,5 +15,3 @@ def photos():
 @app.route("/detail")
 def detail():
 	return render_template("templates/detail.html")
-
-

@@ -39,12 +39,18 @@ class Perpetrator(db.Model):
     created = db.Column(db.DateTime())
     deleted = db.Column(db.DateTime())
 
-    name = db.Column(db.String(40))
-    nickname = db.Column(db.String(40), optional=True)
+    name = db.Column(db.String(40), nullable=False)
+    display_name = db.Column(db.String(40))
 
-    user_associated_with_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    
+    # the user associated with this perpetrator
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __repr__(self):
+        return '<Perpetrator %r, %r>' % (self.name, self.user_id)
+
+    def __init__(self, name, user__id):
+        self.name = name
+        self.user_id = user_id
 
 
 class Photo(db.Model):
@@ -57,6 +63,8 @@ class Photo(db.Model):
 
     filename = db.Column(db.String(1000))
     name = db.Column(db.String(40))
+
+    # the user associated with this perpetrator
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
