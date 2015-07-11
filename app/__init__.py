@@ -10,6 +10,5 @@ mail = Mail(app)
 from app import routes, models
 from flask_user import SQLAlchemyAdapter, UserManager
 
-## we will probably want this later when our db is set up
-# db_adapter = SQLAlchemyAdapter(db, models.User)
-# user_manager = UserManager(db_adapter, app)
+db_adapter = SQLAlchemyAdapter(db, models.User)
+user_manager = UserManager(db_adapter, app)
