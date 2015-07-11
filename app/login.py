@@ -1,6 +1,7 @@
 import re
 
-from flask.wtf import Form, StringField, PasswordField, validators
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, validators
 from validate_email import validate_email
 from .models import User
 
@@ -13,21 +14,15 @@ def enforce_password_requirements(password):
     if len(password) < 7:
         return False
     if not digits:
-        return all([uppercase, lowercase, special_characters]):
+        return all([uppercase, lowercase, special_characters])
     if not special_characters:
-        return all([uppercase, lowercase, digits]):
+        return all([uppercase, lowercase, digits])
     if not lowercase:
-        return all([uppercase, special_characters, digits]):
+        return all([uppercase, special_characters, digits])
     if not uppercase:
-        return all([lowercase, digits, special_characters]):
+        return all([lowercase, digits, special_characters])
 
     return True
-
-def create_login(email, password):
-    ''' Validate the email and enforce things about the password.
-        Then, when validated, save the user to the database.
-    '''    
-
 
 class LoginForm(Form):
     username = StringField('Username', [validators.Required()])
