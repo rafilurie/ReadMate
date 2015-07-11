@@ -2,7 +2,6 @@ import re
 
 from validate_email import validate_email
 
-# May package this in a class later
 
 def enforce_password_requirements(password):
     digits = re.search('[0-9]', password)
@@ -10,7 +9,6 @@ def enforce_password_requirements(password):
     uppercase = re.search("[A-Z]", password)
     lowercase = re.search("[a-z]", password)
     
-    # This is ugly, sorry
     if not digits:
         return all([uppercase, lowercase, special_characters]):
     if not special_characters:
@@ -23,7 +21,9 @@ def enforce_password_requirements(password):
     return True
 
 def create_login(email, password):
-	# validate the email address, enforce things about the password,
+    ''' Validate the email and enforce things about the password.
+        Then, when validated, save the user to the database.
+    '''    
     valid_email = validate_email(email)
     valid_password = enforce_password_requirements(password)
 
@@ -33,7 +33,3 @@ def create_login(email, password):
     if not valid_password:
     	raise ValueError("Password {} is not valid!".format(password))
 
-    # store in the database and use flask user manager
-    
-# I think the usermanager probably does the rest of the work, but I'm not
-# really sure.
