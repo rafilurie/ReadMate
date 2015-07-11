@@ -1,0 +1,40 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<link href= '{{ url_for("static", filename="index.css") }}' rel='stylesheet' />
+<script src='{{ url_for("static", filename="signup_btn.js") }}'></script>
+
+<div class="container-fluid non-nav" id="index">
+	<div class='col-md-7'>
+		<div class="row">
+			<div id="header-text" class='col-md-offset-2'>
+				<h1>No one deserves<br>to be harassed, bitch.</h1>
+				<h2>Collect screenshots of conversations that<br>make your uncomfortable. Download a<br>history when you're ready to report.</h1>
+			</div>
+		</div>
+		<img class="col-md-offset-2" id="iphone-img" src="static/iphone.png" alt="iPhone">
+		
+	</div>
+	<div class='col-md-5'>
+		<div id="homepage-box">
+			<div class="box-content">
+				<button id="signup-btn" type="">Sign Up</button>
+				<button id="login-btn" type="">Login</button>
+				<br>
+				<img id="signup-img" src="static/signup.jpg" alt="Sign Up">
+				<div id="privacy-assurance">
+					We respect your privacy and will never<br>share your information with anyone.
+				</div>
+				<form>
+					<input class="login-input" type="text" name="email" placeholder=" Email address">
+					<input class="login-input" type="password" name="pswd" placeholder=" Password">
+					<br>
+					<input id="login-submit-btn" type="submit" value="Get Started">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
