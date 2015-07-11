@@ -2,4 +2,14 @@
 
 {% block content %}
 photos page
+<div class = "container">
+<div class="jumbotron">
+    <h1>People</h1>
+    <p>Resize this responsive page to see the effect!</p> 
+    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' id = 'hi'/></a>   
+</div>
+</div>
+
 {% endblock %}
