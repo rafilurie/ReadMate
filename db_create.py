@@ -3,8 +3,8 @@ import os.path
 from app import db
 from migrate.versioning import api
 
-from ..config import SQLALCHEMY_DATABASE_URI
-from ..config import SQLALCHEMY_MIGRATE_REPO
+from config import SQLALCHEMY_DATABASE_URI
+from config import SQLALCHEMY_MIGRATE_REPO
 
 
 db.create_all()
