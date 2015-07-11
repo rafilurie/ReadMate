@@ -40,6 +40,10 @@ def login():
 def welcome():
     return render_template("index.html")
 
+@app.route("/empty")
+def empty():
+    return render_template("empty.html")
+
 @app.route("/photos")
 #@login_required
 def photos():
