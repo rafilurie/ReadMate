@@ -1,0 +1,57 @@
+#myModal {
+	font-family: Montserrat;
+	height: 600px;
+}
+
+.modal-header {
+	text-align: center;
+	color: white;
+	background: #DE6465;
+}
+
+#output {
+	width: 200px;
+	height: auto;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.input-group {
+	margin-bottom: 20px;
+}
+.input-header {
+	font-size: 14px;
+	line-height: 18px;
+}
+
+.input-subheader {
+	margin-top: -6px;
+	font-size: 12px;
+	line-height: 15px;
+	color: #CDCDD3;
+}
+
+.input-field {
+	height: 38px;
+	font-size: 14px;
+	color: #CDCDD3;
+	border: solid #CDCDD3 1px;
+	border-radius: 5px;
+	width: 234px;
+}
+
+#textfield {
+	height: 100px;
+}
+
+#donebtn {
+	color: white;
+	background: #F6C991;
+	border: solid #F6C991 1px;
+}
+
+#cancelbtn {
+	color: #F6C991;
+	background: white;
+	border: solid #F6C991 1px;
+}
