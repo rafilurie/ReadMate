@@ -140,16 +140,17 @@ def detail(id):
     except KeyError:
         return redirect(url_for("index"))
 
+    photo = Photo.query.get(id)
+
     if request.method == "POST":
         try:
-            photo = Photo.query.filter_by(id).first()
             db_comment = Comment(request.form["content"], photo.id)
             db.session.add(db_comment)
             db.session.commit()
         except:
             error = "Error saving file, please try again."
         return render_template("detail.html", error=error)
-    return render_template("detail.html")
+    return render_template("detail.html", photo=photo.get_url(), comments=photo.comments)
 
 @app.route("/logout")
 def logout():
