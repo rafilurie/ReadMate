@@ -1,9 +1,16 @@
 import os, time
+import cgi
 from app import app, db
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
+from flask.ext.login import login_user, logout_user
+from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
+
+from flask.ext.login import LoginManager
+from login import enforce_password_requirements
+from validate_email import validate_email
+
 
 @app.route("/")
 def index():
@@ -40,31 +47,38 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        session["user_id"] = form.user.id
-        return redirect(url_for("index"))
-    return render_template("login.html", form=form)
-
-@app.route("/welcome")
+@app.route("/welcome", methods=["GET", "POST"])
 def welcome():
-    return render_template("index.html")
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("index.html", form=request.form)
+
+    if enforce_password_requirements(password) and validate_email(username):
+        db_user = User(request.form["username"], request.form["password"])
+        db.session.add(db_user)
+        db.session.commit()
+        return redirect(url_for("empty"))
+    return render_template("index.html", form=request.form)
 
 @app.route("/empty")
 def empty():
     return render_template("empty.html")
 
 @app.route("/photos")
-#@login_required
+@login_required
 def photos():
 	return render_template("photos.html", photos=Photo.query.all())
 
-@app.route("/detail")
-#@login_required
-def detail():
-	return render_template("detail.html")
+@app.route("/detail/<id>")
+@login_required
+def detail(id):
+    photo = Photo.query.filter_by(id=id).first()
+    name = session.get('name', '')
+    room = session.get('room', '')
+    if name == '' or room == '':
+        return redirect(url_for())
 
 @app.route("/logout")
 @login_required
