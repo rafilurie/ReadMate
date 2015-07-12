@@ -21,8 +21,12 @@ def upload_file():
                 db_file = Photo(extension, 1) # TODO: change this to the current user's id
                 db.session.add(db_file)
                 db.session.flush()
-                print db_file.id
                 db_comment = Comment(request.form["content"], db_file.id)
+                if not Perpetrator.query.filter(Perpetrator.name == request.form["name"]
+                    and Perpetrator.display_name == reuqest.form["display_name"]
+                    and Perpetrator.user_id == 1).all():
+                    db_perp = Perpetrator(request.form["name"], requset.form["display_name"], 1)
+                    db.session.add(db_perp)
                 db.session.add(db_comment)
                 db.session.commit()
 
