@@ -10,6 +10,7 @@ from models import *
 from flask.ext.login import LoginManager
 from login import enforce_password_requirements
 from validate_email import validate_email
+from datetime import datetime
 
 
 @app.route("/")
@@ -29,7 +30,11 @@ def upload_file():
             try:
                 # add to database
                 extension = file.filename.rsplit(".", 1)[1]
-                db_file = Photo(extension, logged_in_user, datetime.strptime(request.form["date"], "%Y-%m-%d"))
+                db_file = Photo(extension, logged_in_user)
+                try:
+                    db_file.when = datetime.strptime(request.form["date"], "%Y-%m-%d")
+                except:
+                    pass
                 db.session.add(db_file)
                 db.session.flush()
                 db_comment = Comment(request.form["content"], db_file.id)
@@ -60,6 +65,8 @@ def upload_file():
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
+    if "user_id" in session:
+        return redirect(url_for("empty"))
     try:
         password = request.form["password"]
         username = request.form["username"]
@@ -81,7 +88,8 @@ def empty():
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-
+    if User.query.get(logged_in_user).photos.count() != 0:
+        return redirect(url_for("perps"))
     return render_template("empty.html")
 
 @app.route("/reported/<id>/photos")
