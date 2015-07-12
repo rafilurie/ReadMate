@@ -10,7 +10,9 @@ from models import *
 from flask.ext.login import LoginManager
 from login import enforce_password_requirements
 from validate_email import validate_email
-
+import pdfkit
+from xhtml2pdf import pisa
+from cStringIO import StringIO
 
 @app.route("/")
 def index():
@@ -130,6 +132,11 @@ def logout():
         pass
 
     return redirect(url_for("welcome"))
+
+@app.route("/pdf/<id>")
+def pdf(id):
+    perp = Perpetrator.query.get(id)
+    return render_template("pdf.html", perpname=perp.name, photos=perp.photos)
 
 @app.route("/images/<path>")
 def send_img(path):
