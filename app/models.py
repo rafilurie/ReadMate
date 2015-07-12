@@ -27,9 +27,9 @@ class User(db.Model, UserMixin):
     def is_active(self):
         return self.is_enabled
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, password):
+        self.email = username
         self.username = username
-        self.email = email
         self.password = password
 
     def __repr__(self):

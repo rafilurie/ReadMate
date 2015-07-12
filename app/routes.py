@@ -8,7 +8,8 @@ from werkzeug import secure_filename
 from models import *
 
 from flask.ext.login import LoginManager
-from login import LoginForm
+from login import enforce_password_requirements
+from validate_email import validate_email
 
 
 @app.route("/")
@@ -27,12 +28,8 @@ def upload_file():
                 db_file = Photo(extension, 1) # TODO: change this to the current user's id
                 db.session.add(db_file)
                 db.session.flush()
+                print db_file.id
                 db_comment = Comment(request.form["content"], db_file.id)
-                if not Perpetrator.query.filter(Perpetrator.name == request.form["name"]
-                    and Perpetrator.display_name == reuqest.form["display_name"]
-                    and Perpetrator.user_id == 1).all():
-                    db_perp = Perpetrator(request.form["name"], requset.form["display_name"], 1)
-                    db.session.add(db_perp)
                 db.session.add(db_comment)
                 db.session.commit()
 
@@ -50,19 +47,18 @@ def upload_file():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    from login import enforce_password_requirements
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("index.html", form=request.form)
 
-    form = LoginForm()
-    print form
-    print form.user
-    print form.username
-    print form.password
-    print form.validate_on_submit()
-    print enforce_password_requirements(form.password)
-    if form.validate_on_submit():
-        db.session["user_id"] = form.user.id
-        redirect(url_for("empty"))
-    return render_template("index.html", form=form)
+    if enforce_password_requirements(password) and validate_email(username):
+        db_user = User(request.form["username"], request.form["password"])
+        db.session.add(db_user)
+        db.session.commit()
+        return redirect(url_for("empty"))
+    return render_template("index.html", form=request.form)
 
 @app.route("/welcome")
 def welcome():
