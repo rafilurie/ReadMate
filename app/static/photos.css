@@ -21,6 +21,9 @@ body {
 	color: white !important;
 }
 
+.mini-header {
+}
+
 
 #top-container {
 	border-bottom: solid #DE6465 1px;
@@ -28,24 +31,13 @@ body {
 	margin-bottom: 80px;
 }
 
-button#upload-btn {
-	margin: 20px 0px 0px 0px;
-	height: 30px;
-	width: 130px;
-	font-size: 14px;
-	color: white;
-	background: #F6C991;
-	border-radius: 5px;
-	border: solid #F6C991 1px;
+.location {
+	font-size: 30px;
+	color: #DE6465 !important;
+	margin-left: 94px;
+	margin-top: 20px;
+
 }
 
-h1 {
-	font-size: 40px;
-	color: #DE6465;
-	font-weight: 700;
-	text-align: center;
-	line-height: 40px;
-	margin: 70px 0px 100px 0px;
-}
 
 
