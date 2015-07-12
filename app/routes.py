@@ -77,6 +77,10 @@ def detail(id):
     room = session.get('room', '')
     if name == '' or room == '':
         return redirect(url_for())
+
+@app.route("/detail")
+#@login_required
+def detail():
 	return render_template("detail.html")
 
 @app.route("/logout")

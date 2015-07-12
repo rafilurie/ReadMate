@@ -1,23 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
-photos page
 <div class = "container">
 <div class="jumbotron">
     <h1>People</h1>
     <!-- <p><button type="button" class="btn btn-info btn-primary" data-toggle="modal" data-target="#myModal">Upload a Photo</button></p> -->
-    <p>Resize this responsive page to see the effect!</p> 
+    <p><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Upload A Photo</button><p>
     <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
     <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
-    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>   
-</div>
+    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    <a href = 'google.com'>	</a>
 </div>
 
-
-<div class="container">
-  <h2>Modal Example</h2>
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -27,13 +22,20 @@ photos page
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Upload a Photo</h4>
         </div>
         <div class="modal-body">
-          <p>Some text in the modal.</p>
+          <p>Who sent you this message?</p>
+          <p class="text-muted"><small>Only you will see this information.</small></p>
+          <input>
+          <p>When did this happen?</p>
+          <input>
+          <p>What's the context?</p>
+          <textarea rows="3"></textarea>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Done</button>
         </div>
       </div>
       
@@ -41,12 +43,5 @@ photos page
   </div>
   
 </div>
-
-</body>
-</html>
-
-
-
-
 
 {% endblock %}

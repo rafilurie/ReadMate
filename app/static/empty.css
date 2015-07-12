@@ -1,0 +1,76 @@
+body {
+	background: #FCFCFC;
+}
+
+.navbar {
+	font-family: Montserrat;
+	background: #DE6465;
+	height: 80px;
+}
+
+#home-btn {
+	margin: 14px 0px 0px 80px;
+}
+
+#signout {
+	margin: 14px 80px 0px 0px;
+}
+
+.custom-nav {
+	color: white !important;
+}
+
+#empty {
+	margin-top: 80px;
+	font-family: Montserrat;
+}
+
+#upload-btn {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 155px;
+	font-size: 14px;
+	color: white;
+	background: #F6C991;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+
+}
+
+h1 {
+	font-size: 40px;
+	color: #DE6465;
+	font-weight: 700;
+	text-align: center;
+	line-height: 40px;
+	margin: 70px 0px 100px 0px;
+}
+
+.valueprops {
+	margin-left: 100px;
+}
+
+.photo {
+	text-align: center;
+}
+
+.img {
+	height: 100px;
+	width: auto;
+	margin-bottom: 35px;
+}
+
+.image-blurb {
+	font-size: 18px;
+	line-height: 22px;
+	color: #6B6B76;
+	text-align: center;
+}
+
+.value {
+	border-right: solid #DE6465 1px;
+}
+
+.value:last-child {
+	border-right: none;	
+}
