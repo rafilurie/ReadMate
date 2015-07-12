@@ -2,7 +2,7 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash
+from flask import render_template, session, request, jsonify, abort, Response, url_for, redirect, flash
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -76,6 +76,7 @@ def welcome():
         login_user(db_user)
         db.session.add(db_user)
         db.session.commit()
+        session["user_id"] = db_user.id
         return redirect(url_for("empty"))
     return render_template("index.html", form=request.form)
 
@@ -89,9 +90,13 @@ def empty():
 def photos():
 	return render_template("photos.html", photos=Photo.query.all())
 
-@app.route("/detail/<id>")
+@app.route("/counselor")
+def counselor():
+    return render_template("counselor.html")
+
+@app.route("/detail")
 #@login_required
-def detail(id):
+def detail():
     if request.method == "POST":
         try:
             photo = Photo.query.filter_by(id=id).first()
@@ -102,7 +107,7 @@ def detail(id):
             error = "Error saving file, please try again."
         return render_template("detail.html", error=error)
     return render_template("detail.html")
-      
+
 @app.route("/logout")
 #@login_required
 def logout():
