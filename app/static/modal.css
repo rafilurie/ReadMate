@@ -35,6 +35,7 @@
 #myModal textarea {
 	padding-top: 8px;
 	margin-top: 5px;
+	height: 140px;
 }
 .modal-header {
 	border-top-right-radius: 5px;
@@ -47,14 +48,19 @@
 }
 
 .modal-footer {
-	padding: 20px 0px 10px 38px;
+	padding: 20px 0px 10px 64px;
 }
 
 .upload-container {
     position: relative;
     overflow: hidden;
 		margin-bottom: 20px;
-		margin-left: 24px;
+		margin-left: 50px;
+}
+
+.meta-container {
+	border-right: 1px solid rgba(222, 100, 101, 0.25);
+	margin-right: 50px;
 }
 
 .upload-container input {
