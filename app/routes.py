@@ -20,7 +20,7 @@ def index():
 def upload_file():
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
 
     if request.method == "POST":
@@ -91,7 +91,7 @@ def photos(id):
     except KeyError:
         return redirect(url_for("index"))
 
-	return render_template("photos.html", photos=Perpetrator.query.get(id=id).photos)
+    return render_template("photos.html", photos=Perpetrator.query.get(id=id).photos)
 
 @app.route("/counselor")
 def counselor():
