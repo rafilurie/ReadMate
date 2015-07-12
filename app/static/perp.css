@@ -2,6 +2,12 @@
 	font-size: 36px;
 	line-height: 44px;
 	color: white;
+	text-decoration: none;
+	margin-top: 50px;
+}
+
+.perp:hover {
+	text-decoration: none;
 }
 
 .allperps {
@@ -20,8 +26,18 @@
 	display: inline-block;
 	text-align: center;
 	margin-left: 200px;
+	margin-top: 40px;
 }
 
 .perp-container {
 	display: inline-block;
+	margin-left: 50px;
+}
+
+.perp-container:first-child{
+	margin-left: 0px;
+}
+
+.num-photos {
+	margin-top: 10px;
 }

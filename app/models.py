@@ -93,6 +93,10 @@ class Photo(db.Model):
         url = "/images/{0}.{1}".format(self.id, self.extension)
         return url
 
+    def get_help_url(self):
+        url = "/detail/{}".format(self.id)
+        return url
+
     def __repr__(self):
         return '<Photo %r, %r>' % (self.extension, self.user_id)
 

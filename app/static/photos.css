@@ -25,10 +25,16 @@ body {
 	height: auto;
 	margin-right: 50px;
 	margin-top: 60px;
+	text-align: center;
 }
 
 .thumbnail-pckg:last-child {
 
+}
+
+.img-thumbnail {
+	height: 250px;
+	width: auto;
 }
 
 .photo-date {
