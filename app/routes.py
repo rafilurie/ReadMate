@@ -2,7 +2,7 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
-from flask import session, render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
+from flask import session, render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory, json
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -10,6 +10,7 @@ from models import *
 from flask.ext.login import LoginManager
 from login import enforce_password_requirements
 from validate_email import validate_email
+from datetime import datetime
 
 
 @app.route("/")
@@ -29,7 +30,11 @@ def upload_file():
             try:
                 # add to database
                 extension = file.filename.rsplit(".", 1)[1]
-                db_file = Photo(extension, logged_in_user, datetime.strptime(request.form["date"], "%Y-%m-%d"))
+                db_file = Photo(extension, logged_in_user)
+                try:
+                    db_file.when = datetime.strptime(request.form["date"], "%Y-%m-%d")
+                except:
+                    pass
                 db.session.add(db_file)
                 db.session.flush()
                 db_comment = Comment(request.form["content"], db_file.id)
@@ -78,6 +83,8 @@ def login():
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
+    if "user_id" in session:
+        return redirect(url_for("empty"))
     try:
         password = request.form["password"]
         username = request.form["username"]
@@ -102,7 +109,8 @@ def empty():
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-
+    if User.query.get(logged_in_user).photos.count() != 0:
+        return redirect(url_for("perps"))
     return render_template("empty.html")
 
 @app.route("/reported/<id>/photos")
@@ -111,7 +119,7 @@ def photos(id):
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-    
+
     perp = Perpetrator.query.get(id)
     return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
@@ -132,6 +140,7 @@ def detail(id):
         return redirect(url_for("index"))
 
     photo = Photo.query.get(id)
+    perp = Perpetrator.query.filter(Perpetrator.id == photo.perpetrator_id).one()
 
     if request.method == "POST":
         try:
@@ -141,7 +150,21 @@ def detail(id):
         except:
             error = "Error saving file, please try again."
         return render_template("detail.html", error=error)
-    return render_template("detail.html", photo=photo.get_url(), comments=photo.comments)
+    return render_template("detail.html", photo=photo, comments=photo.comments, perpname=perp.name)
+
+@app.route("/comment/add/<id>", methods=["POST"])
+def add_comment(id):
+    comm = request.json.get('content')
+    db_comment = Comment(comm, id)
+    db.session.add(db_comment)
+    db.session.commit()
+    photo = Photo.query.get(id)
+    comments = []
+    for comment in photo.comments.all():
+        comments.append({ "created" : comment.created.strftime("%m/%d/%Y"), "content" : comment.content })
+
+    return json.dumps({'success': True, 'comments': comments}), 200, {'ContentType': 'application/json'}
+
 
 @app.route("/logout")
 def logout():
