@@ -50,6 +50,8 @@ class Perpetrator(db.Model):
 
     name = db.Column(db.String(40), nullable=False)
     display_name = db.Column(db.String(40))
+    photos = db.relationship('Photo', backref=db.backref('perpetrators', lazy='joined'),
+                               lazy='dynamic')
 
     # the user associated with this perpetrator
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -57,6 +59,8 @@ class Perpetrator(db.Model):
     def __repr__(self):
         return '<Perpetrator %r, %r>' % (self.name, self.user_id)
 
+    def get_photo_url(self):
+        return "/reported/{0}/photos".format(self.id)
 
     def __init__(self, name, display_name, user_id):
         self.name = name
@@ -79,6 +83,7 @@ class Photo(db.Model):
 
     # the user associated with this photo
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    perpetrator_id = db.Column(db.Integer, db.ForeignKey('perpetrator.id'))
 
     def list_comments(self):
         return self.comments.all()
