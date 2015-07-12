@@ -1,13 +1,13 @@
 import os, time
 import cgi
 from app import app, db
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect
 from flask.ext.login import login_user, logout_user
 from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
 
+from flask.ext.login import LoginManager
 from login import LoginForm
 
 
@@ -46,14 +46,18 @@ def upload_file():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    from login import enforce_password_requirements
+
     form = LoginForm()
+    print form
+    print form.user
+    print form.username
+    print form.password
+    print form.validate_on_submit()
+    print enforce_password_requirements(form.password)
     if form.validate_on_submit():
-        user = User.query.get(form.email)
-        if user:
-            db.session.add(user)
-            db.session.commit()
-            login_user(user, remember=True)
-            return redirect(url_for("empty"))
+        db.session["user_id"] = form.user.id
+        redirect(url_for("empty"))
     return render_template("index.html", form=form)
 
 @app.route("/welcome")
@@ -77,11 +81,6 @@ def detail(id):
     room = session.get('room', '')
     if name == '' or room == '':
         return redirect(url_for())
-
-@app.route("/detail")
-#@login_required
-def detail():
-	return render_template("detail.html")
 
 @app.route("/logout")
 @login_required

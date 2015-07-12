@@ -27,8 +27,17 @@ class User(db.Model, UserMixin):
     def is_active(self):
         return self.is_enabled
 
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = password
+
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+    @classmethod
+    def get(cls,id):
+        return cls.user_database.get(id)
 
 
 class Perpetrator(db.Model):
@@ -46,7 +55,7 @@ class Perpetrator(db.Model):
     def __repr__(self):
         return '<Perpetrator %r, %r>' % (self.name, self.user_id)
 
-    def __init__(self, name, user__id):
+    def __init__(self, name, user_id):
         self.name = name
         self.user_id = user_id
         self.created = datetime.now()

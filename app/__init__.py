@@ -11,3 +11,4 @@ from app import routes, models
 from flask_user import SQLAlchemyAdapter, UserManager
 
 db_adapter = SQLAlchemyAdapter(db, models.User)
+user_manager = UserManager(db_adapter, app)

@@ -44,11 +44,11 @@ class LoginForm(Form):
             self.username.errors.append('Unknown username')
             return False
 
-        valid_email = validate_email(self.email)
+        valid_email = validate_email(self.username)
         valid_password = enforce_password_requirements(self.password)
 
         if not valid_email:
-            self.email.errors.append('Email {} is not valid!'.format(email))
+            self.username.errors.append('Email {} is not valid!'.format(email))
             return False
 
         pw_error_message = """Password is not valid. Password must have at least 7
