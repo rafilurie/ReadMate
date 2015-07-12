@@ -63,8 +63,6 @@
 	margin-right: 50px;
 }
 
-
-
 #output {
 	width: 200px;
 	height: auto;
@@ -114,10 +112,25 @@
 	width: 68px !important;
 	margin-top: 0 !important;
 	margin-right: 5px;
+	transition: all 0.3s ease;
+}
+
+#donebtn:hover {
+	background: rgba(246, 201, 145, 0.75);
+	border: 1px solid rgba(246, 201, 145, 0.75);
+	transition: all 0.3s ease;
 }
 
 #cancelbtn {
 	color: #F6C991;
 	background: white;
 	border: solid #F6C991 1px;
+	transition: all 0.3s ease;
+}
+
+#cancelbtn:hover {
+	color: #fff;
+	background-color: rgba(246, 201, 145, 0.75);
+	border: 1px solid rgba(246, 201, 145, 0.75);
+	transition: all 0.3s ease;
 }
