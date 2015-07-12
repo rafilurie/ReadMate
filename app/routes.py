@@ -50,13 +50,30 @@ def upload_file():
                 flash("Your photo was uploaded")
                 return redirect(url_for("perps"))
             except:
-                print "in except"
                 error = "Error saving file, please try again."
         else:
             error = "No photo was supplied."
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
+@app.route("/welcome/login", methods=["GET", "POST"])
+def login():
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("index.html", form=request.form, error="No username or password provided.")
+
+    if enforce_password_requirements(password) and validate_email(username):
+        db_user = User.query.filter(User.username == username and User.password == password).all()
+        if not db_user:
+            return render_template("index.html", form=request.form, error="No user associated with that username and password.")
+        login_user(db_user)
+        db.session.add(db_user)
+        db.session.commit()
+        session["user_id"] = db_user.id
+        return redirect(url_for("empty"))
+    return render_template("index.html", form=request.form)
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
@@ -64,9 +81,12 @@ def welcome():
         password = request.form["password"]
         username = request.form["username"]
     except:
-        return render_template("index.html", form=request.form)
+        return render_template("index.html", form=request.form, error="No username or password provided.")
 
     if enforce_password_requirements(password) and validate_email(username):
+        in_db = User.query.filter(User.username == username).all()
+        if in_db:
+            return render_template("index.html", form=request.form, error="User with that username already exists.")
         db_user = User(request.form["username"], request.form["password"])
         login_user(db_user)
         db.session.add(db_user)
