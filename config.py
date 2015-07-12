@@ -17,6 +17,6 @@ MAIL_PORT = int(os.getenv('MAIL_PORT', '587'))
 MAIL_USE_SSL = False
 MAIL_USE_TLS = True
 
-UPLOAD_FOLDER = "uploads/"
+UPLOAD_FOLDER = basedir + "/uploads/"
 
 USER_APP_NAME = "Reporting App" ## change this
