@@ -2,8 +2,12 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
+<<<<<<< HEAD
 from flask import render_template, session, request, jsonify, abort, Response, url_for, redirect, flash
 
+=======
+from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
+>>>>>>> finished front end photos page
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -92,6 +96,10 @@ def welcome():
 def empty():
     return render_template("empty.html")
 
+@app.route("/photos")
+# @login_required
+def photos():
+	return render_template("photos.html", photos=Photo.query.all())
 
 @app.route("/reported/<id>/photos")
 def photos(id):

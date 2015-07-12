@@ -4,7 +4,7 @@
 <link href= '{{ url_for("static", filename="empty.css") }}' rel='stylesheet' />
 <link href= '{{ url_for("static", filename="modal.css") }}' rel='stylesheet' />
 <link href= '{{ url_for("static", filename="photos.css") }}' rel='stylesheet' />
-<script src='{{ url_for("static", filename="img_preview.js") }}'></script>
+<script src='{{ url_for("static", filename="btn_show.js") }}'></script>
 
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-default navbar-fixed-top navigation">
@@ -23,16 +23,53 @@
   
 <div class="container-fluid non-nav" id="empty">
   <div class="row mini-header">
-    <div class="col-md-1 location">Person</div>
-    <div class="col-md-offset-10">
+    <div class="col-md-3 location">Person > {perpname}</div>
+    <div class="col-md-offset-4 col-md-1">
+      <button id="create-pdf" type="" data-toggle="modal">CREATE PDF</button>
+    </div>
+    <div class="col-md-1 help-parent">
+      <button id="get-help" type="">GET HELP</button>
+    </div>
+    <div class="col-md-1">
       <button id="upload-btn" type="" data-toggle="modal" data-target="#myModal">UPLOAD A PHOTO</button>
     </div>
   </div>
   <hr>
+
+  <div class="row" id="create-dropdown">
+    <div class="col-md-offset-1 col-md-7 create-blurb">
+      Select the photos you want to include in the PDF that we'll generate<br>for you. Need help understand the reporting process? <span class="link">Visit our FAQ.</span>
+    </div>
+    <div class="col-md-1">
+      <button class="cancel" type="">CANCEL</button>
+    </div>
+    <div class="col-md-1">
+      <button id="download-pdf" type="">DOWNLOAD PDF</button>
+    </div>
+  </div>
+
+    <div class="row" id="help-dropdown">
+      <div class="col-md-offset-1 col-md-7 create-blurb">
+        Select the photos you want to discuss anonymously with a counselor. The counselor will be abe to view the photos you select. Need help? <span class="link">Visit our FAQ.</span>
+      </div>
+      <div class="col-md-1">
+        <button class="cancel" type="">CANCEL</button>
+      </div>
+      <div class="col-md-1">
+        <button id="help-btn" type="">GET HELP</button>
+      </div>
+    </div>
   
   <div>
     {% for photo in photos %}
-      <a href = "google.com"><img src ="{{ photo.get_url() }}" class="img-thumbnail" /></a>
+    <div class = 'col-md-2 thumbnail-pckg'>
+      <div class="row">
+        <a href = "google.com"><img src ="{{ photo.get_url() }}" class="img-thumbnail" /></a>
+      </div>
+      <div class="row">
+        <div class="photo-date">{ photo.get_date }}"</div>
+      </div>
+    </div>
     {% endfor %}
   </div>
 
