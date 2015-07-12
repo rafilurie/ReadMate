@@ -90,8 +90,8 @@ def photos(id):
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-
-    return render_template("photos.html", photos=Perpetrator.query.get(id=id).photos)
+    
+    return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
 
 @app.route("/counselor")
 def counselor():
@@ -111,7 +111,7 @@ def detail():
 
     if request.method == "POST":
         try:
-            photo = Photo.query.filter_by(id=id).first()
+            photo = Photo.query.filter_by(id).first()
             db_comment = Comment(request.form["content"], photo.id)
             db.session.add(db_comment)
             db.session.commit()
