@@ -71,7 +71,7 @@ body {
 .avatar{
 	width: 40px;
 	height: 40px;
-	border-radius: 100px; 
+	border-radius: 100px;
 	background-color: #F6C991;
 	margin-left: 30px;
 	margin-top: 24px;
@@ -108,4 +108,10 @@ body {
 	height: 330px;
 	overflow-y:scroll;
 	margin-top: 10px;
+}
+
+div.comment {
+	border: 1px solid #F6C991;
+	border-radius: 5px;
+	
 }

@@ -6,8 +6,8 @@
 <link href= '{{ url_for("static", filename="photos.css") }}' rel='stylesheet' />
 <link href= '{{ url_for("static", filename="perp.css") }}' rel='stylesheet' />
 <link href= '{{ url_for("static", filename="detail.css") }}' rel='stylesheet' />
-<script src='{{ url_for("static", filename="btn_show.js") }}'></script>
 <script src='{{ url_for("static", filename="img_preview.js") }}'></script>
+<script src='{{ url_for("static", filename="post_comment.js")}}'></script>
 
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-default navbar-fixed-top navigation">
@@ -23,15 +23,16 @@
 		</div>
 	</div>
 </nav>
-  
+
 <div class="container-fluid non-nav" id="empty">
-	
+
 	<div class="col-md-8">
 		<div class="row mini-header">
 			<div class="col-md-9 location">
-				PEOPLE > { PURP NAME } > GET HELP
+				PEOPLE > {{ perpname.upper() }} > GET HELP
 			</div>
 		</div>
+		<img src="{{ photo.get_url() }}" />
 
 		<hr>
 	</div>
@@ -45,18 +46,24 @@
 				Talk anonymously with an expert counselor about the screens you’ve selected. This conversation will be saved for your future reference.
 			</div>
 			<div class="comments">
-				<!-- THIS IS WHERE WE NEED TO PUT THE COMMENTS -->
+				{% for comment in comments %}
+					<div class="comment">
+						{{ comment.content }}
+						<br>
+						<span class="comment-date">{{ comment.created.strftime("%m/%d/%Y") }}</span>
+					</div>
+				{% endfor %}
 			</div>
 			<div class="row">
 				<div class="comment-area">
 					<form>
-						<textarea rows="4" class="textarea" placeholder="Comment"></textarea>
-						<input id="comment-submit-btn" type="submit" value="Comment">
+						<textarea rows="4" id="new-comment" class="textarea" placeholder="Comment"></textarea>
+						<input id="comment-submit-btn" type="submit" value="Comment" data-id="{{ photo.id }}">
 					</form>
 				</div>
 			</div>
-			
-			
+
+
 		</div>
 	</div>
 
