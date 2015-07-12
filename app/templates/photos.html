@@ -19,15 +19,19 @@
 </nav>
 
 <div class = "container-fluid non-nav">
-	<h1> PEOPLE </h1>
-    <!-- <p><button type="button" class="btn btn-info btn-primary" data-toggle="modal" data-target="#myModal">Upload a Photo</button></p> -->
-    <div class="col-md-offset-10">
-		<button id="upload-btn" type="" data-toggle="modal" data-target="#myModal">UPLOAD A PHOTO</button>
-	</div>
-    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
-    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
-    <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
-    <a href = 'google.com'>	</a>
+	<div id="top-container" class="col-md-12"> 
+		<h3 class="col-md-8"> PEOPLE </h3> 
+	    <div class="col-md-4"t>
+			<button id="upload-btn" type="" data-toggle="modal" data-target="#myModal" push-right>UPLOAD A PHOTO</button>
+		</div>
+    </div>
+    <br>
+    <div>
+    	<a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    	<a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    	<a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
+    	<a href = 'google.com'>	</a>
+    </div>
 
   <!-- Trigger the modal with a button -->
 
