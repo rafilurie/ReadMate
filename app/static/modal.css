@@ -37,6 +37,13 @@
 	margin-top: 5px;
 	height: 140px;
 }
+
+#choose-file {
+	margin-top: 140px !important;
+	color: #F2F2F4;
+	margin-left: 52px;
+}
+
 .modal-header {
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
@@ -68,6 +75,7 @@
 	height: auto;
 	margin-bottom: 20px;
 	text-align: center;
+	z-index: 5;
 }
 
 .input-group {
