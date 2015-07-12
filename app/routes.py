@@ -22,24 +22,26 @@ def upload_file():
     if request.method == "POST":
         file = request.files["file"]
         if file:
-            extension = file.filename.rsplit(".", 1)[1]
-            db_file = Photo(extension, 1) # TODO: change this to the current user's id
-            db.session.add(db_file)
-            db.session.flush()
-            db_comment = Comment(request.form["content"], db_file.id)
-            if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).all():
-                db_perp = Perpetrator(request.form["name"], "", 1)
-                db.session.add(db_perp)
-            db.session.add(db_comment)
-            db.session.commit()
+            try:
+                # add to database
+                extension = file.filename.rsplit(".", 1)[1]
+                db_file = Photo(extension, 1) # TODO: change this to the current user's id
+                db.session.add(db_file)
+                db.session.flush()
+                db_comment = Comment(request.form["content"], db_file.id)
+                if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).all():
+                    db_perp = Perpetrator(request.form["name"], "", 1) # TODO: change to the current user's id
+                    db.session.add(db_perp)
+                db.session.add(db_comment)
+                db.session.commit()
 
-            # save to file system
-            filename = "{0}.{1}".format(db_file.id, extension)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            flash("Your photo was uploaded")
-            return redirect(url_for("detail"))
-            # except:
-            #     error = "Error saving file, please try again."
+                # save to file system
+                filename = "{0}.{1}".format(db_file.id, extension)
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                flash("Your photo was uploaded")
+                return redirect(url_for("detail"))
+            except:
+                error = "Error saving file, please try again."
         else:
             error = "No photo was supplied."
         return render_template("upload_file.html", error=error)
@@ -67,7 +69,7 @@ def empty():
 @app.route("/photos")
 @login_required
 def photos():
-	return render_template("photos.html")
+	return render_template("photos.html", photos=Photo.query.all())
 
 @app.route("/detail/<id>")
 @login_required
@@ -83,3 +85,7 @@ def detail(id):
 def logout():
     logout_user()
     return redirect(url_for("welcome"))
+
+@app.route('/images/<path>')
+def send_img(path):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], path)

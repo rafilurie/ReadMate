@@ -3,6 +3,7 @@ from flask_user import UserMixin
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from flask import url_for
 
 
 class User(db.Model, UserMixin):
@@ -81,6 +82,10 @@ class Photo(db.Model):
 
     def list_comments(self):
         return self.comments.all()
+
+    def get_url(self):
+        url = "/images/{0}.{1}".format(self.id, self.extension)
+        return url
 
     def __repr__(self):
         return '<Photo %r, %r>' % (self.extension, self.user_id)
