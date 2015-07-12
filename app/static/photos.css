@@ -9,26 +9,32 @@ body {
 }
 
 .location {
-	font-size: 30px;
+	font-size: 16px;
 	color: #DE6465 !important;
 	margin-left: 94px;
-	margin-top: 20px;
+	margin-top: 32px;
 
 }
 
 .thumbnail-pckg:first-child {
 	margin-left: 94px;
-} 
+}
 
 .thumbnail-pckg {
 	width: 200px;
 	height: auto;
 	margin-right: 50px;
 	margin-top: 60px;
+	text-align: center;
 }
 
 .thumbnail-pckg:last-child {
 
+}
+
+.img-thumbnail {
+	height: 250px;
+	width: auto;
 }
 
 .photo-date {
@@ -49,12 +55,14 @@ body {
 	background: white;
 	border-radius: 5px;
 	border: solid #F6C991 1px;
+	transition: all 0.3s ease;
 }
 
 #get-help:hover {
 	color: white;
 	background: #F6C991;
 	opacity: .5;
+	transition: all 0.3s ease;
 }
 
 #create-pdf {
@@ -66,12 +74,14 @@ body {
 	background: white;
 	border-radius: 5px;
 	border: solid #F6C991 1px;
+	transition: all 0.3s ease;
 }
 
 #create-pdf:hover{
 	color: white;
 	background: #F6C991;
 	opacity: .5;
+	transition: all 0.3s ease;
 }
 
 .help-parent {
@@ -83,6 +93,7 @@ body {
 	color: #6B6B76;
 	height: 80px;
 	margin-top: -20px;
+	transition: all 0.3s ease;
 }
 
 .create-blurb {
@@ -166,4 +177,8 @@ body {
 	border-radius: 5px;
 	border: solid #F6C991 1px;
 	margin-left: 20px;
+}
+
+img.selected {
+	border: solid 7px #F6C991;
 }

@@ -4,10 +4,12 @@ window.onload = function() {
     
     document.getElementById("signup-btn").onclick = function() {
         clickedBtn = 1;
+        window.location.href='/welcome';
     }
 
     document.getElementById("login-btn").onclick = function() {
         clickedBtn = 2;
+        window.location.href='/welcome/login';
     }
 
     document.getElementById("signup-btn").onmouseover = function() {
@@ -51,5 +53,4 @@ window.onload = function() {
             document.getElementById("signup-btn").style.color = "white";
         }
     }
-
 }

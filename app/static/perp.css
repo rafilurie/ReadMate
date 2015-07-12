@@ -1,7 +1,22 @@
 .perp {
-	font-size: 36px;
-	line-height: 44px;
+	font-size: 22px;
+	line-height: 25px;
 	color: white;
+	text-decoration: none;
+	margin-top: 50px;
+}
+
+.perp:hover {
+	text-decoration: none;
+}
+
+a {
+	transition: 0.2s ease;
+}
+
+a:hover {
+	color: white;
+	transition: 0.2s ease;
 }
 
 .allperps {
@@ -13,15 +28,32 @@
 }
 .circle {
 	border-radius: 50%;
-	border: solid #CDCDD3 1px;
 	background: #CDCDD3;
 	width: 150px;
 	height: 150px;
 	display: inline-block;
 	text-align: center;
 	margin-left: 200px;
+	margin-top: 40px;
+	transition: all 0.3s ease;
+}
+
+.circle:hover {
+	box-shadow: 0 1px 5px rgba(0,0,0,.28);
+	background-color: rgba(222, 100, 101, 0.75);
+	transition: all 0.3s ease;
 }
 
 .perp-container {
 	display: inline-block;
+	margin-left: 125px;
+}
+
+.perp-container:first-child{
+	margin-left: 0px;
+}
+
+.num-photos {
+	margin-top: 10px;
+	font-weight: bold;
 }
