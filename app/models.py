@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     deleted = db.Column(db.DateTime())
 
     is_enabled = db.Column(db.Boolean(), nullable=False, server_default='0')
+    #is_counselor = db.Column(db.Boolean(), nullable=False, server_default='0')
 
     first_name = db.Column(db.String(100), nullable=False, server_default='')
     last_name = db.Column(db.String(100), nullable=False, server_default='')

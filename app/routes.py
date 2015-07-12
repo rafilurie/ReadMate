@@ -2,7 +2,8 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
-from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
+from flask import render_template, session, request, jsonify, abort, Response, url_for, redirect, flash
+
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -17,7 +18,7 @@ def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
-# @login_required
+#@login_required
 def upload_file():
     if request.method == "POST":
         file = request.files["file"]
@@ -53,6 +54,22 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
+@app.route("/welcome/counselor", methods=["GET", "POST"])
+def counselor_welcome():
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("index.html", form=request.form)
+
+    if enforce_password_requirements(password) and validate_email(username):
+        db_user = User(request.form["username"], request.form["password"])
+        login_user(db_user)
+        db.session.add(db_user)
+        db.session.commit()
+        return redirect(url_for("empty"))
+    return render_template("index.html", form=request.form)
+
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
     try:
@@ -63,35 +80,49 @@ def welcome():
 
     if enforce_password_requirements(password) and validate_email(username):
         db_user = User(request.form["username"], request.form["password"])
+        login_user(db_user)
         db.session.add(db_user)
         db.session.commit()
+        session["user_id"] = db_user.id
         return redirect(url_for("empty"))
     return render_template("index.html", form=request.form)
 
 @app.route("/empty")
+#@login_required
 def empty():
     return render_template("empty.html")
+
 
 @app.route("/reported/<id>/photos")
 def photos(id):
 	return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
 
-@app.route("/detail/<id>")
-@login_required
-def detail(id):
-    photo = Photo.query.filter_by(id=id).first()
-    name = session.get('name', '')
-    room = session.get('room', '')
-    if name == '' or room == '':
-        return redirect(url_for())
+@app.route("/counselor")
+def counselor():
+    return render_template("counselor.html")
+
+@app.route("/detail")
+#@login_required
+def detail():
+    if request.method == "POST":
+        try:
+            photo = Photo.query.filter_by(id=id).first()
+            db_comment = Comment(request.form["content"], photo.id)
+            db.session.add(db_comment)
+            db.session.commit()
+        except:
+            error = "Error saving file, please try again."
+        return render_template("detail.html", error=error)
+    return render_template("detail.html")
 
 @app.route("/logout")
-@login_required
+#@login_required
 def logout():
     logout_user()
     return redirect(url_for("welcome"))
 
 @app.route("/images/<path>")
+>>>>>>> 81b3b44d1f9ce61a23a62427eeba3673334f9504
 def send_img(path):
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
 
