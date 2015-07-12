@@ -1,4 +1,5 @@
 import os, time
+import cgi
 from app import app, db
 from flask import render_template, request, jsonify, abort, Response, url_for, redirect
 from flask.ext.login import login_user, logout_user
@@ -47,9 +48,13 @@ def upload_file():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        session["user_id"] = form.user.id
-        return redirect(url_for("index"))
-    return render_template("login.html", form=form)
+        user = User.query.get(form.email)
+        if user:
+            db.session.add(user)
+            db.session.commit()
+            login_user(user, remember=True)
+            return redirect(url_for("empty"))
+    return render_template("index.html", form=form)
 
 @app.route("/welcome")
 def welcome():
@@ -60,7 +65,7 @@ def empty():
     return render_template("empty.html")
 
 @app.route("/photos")
-#@login_required
+@login_required
 def photos():
 	return render_template("photos.html")
 
