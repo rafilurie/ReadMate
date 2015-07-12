@@ -111,8 +111,9 @@ def photos(id):
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-
+    
     perp = Perpetrator.query.get(id)
+    session["photo_ids"] = [photo.id for photo in perp.photos]
     return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
 @app.route("/counselor")
@@ -124,8 +125,8 @@ def counselor():
 
     return render_template("counselor.html")
 
-@app.route("/detail")
-def detail():
+@app.route("/detail/<id>")
+def detail(id):
     try:
         logged_in_user = session["user_id"]
     except KeyError:
