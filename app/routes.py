@@ -122,7 +122,6 @@ def logout():
     return redirect(url_for("welcome"))
 
 @app.route("/images/<path>")
->>>>>>> 81b3b44d1f9ce61a23a62427eeba3673334f9504
 def send_img(path):
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
 
