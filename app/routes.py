@@ -96,11 +96,6 @@ def welcome():
 def empty():
     return render_template("empty.html")
 
-@app.route("/photos")
-# @login_required
-def photos():
-	return render_template("photos.html", photos=Photo.query.all())
-
 @app.route("/reported/<id>/photos")
 def photos(id):
 	return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
