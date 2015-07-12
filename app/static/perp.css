@@ -31,4 +31,13 @@
 
 .perp-container {
 	display: inline-block;
+	margin-left: 50px;
+}
+
+.perp-container:first-child{
+	margin-left: 0px;
+}
+
+.num-photos {
+	margin-top: 10px;
 }
