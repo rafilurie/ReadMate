@@ -3,6 +3,7 @@ import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
 from flask import render_template, session, request, jsonify, abort, Response, url_for, redirect, flash
+
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -31,7 +32,12 @@ def upload_file():
                 db_comment = Comment(request.form["content"], db_file.id)
                 if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).all():
                     db_perp = Perpetrator(request.form["name"], "", 1) # TODO: change to the current user's id
+                    db_file.perpetrator_id = db_perp.id
                     db.session.add(db_perp)
+                else:
+                    existing_perp = Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).one()
+                    db_file.perpetrator_id = existing_perp.id
+                db.session.add(db_file)
                 db.session.add(db_comment)
                 db.session.commit()
 
@@ -39,8 +45,9 @@ def upload_file():
                 filename = "{0}.{1}".format(db_file.id, extension)
                 file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
                 flash("Your photo was uploaded")
-                return redirect(url_for("detail"))
+                return redirect(url_for("perps"))
             except:
+                print "in except"
                 error = "Error saving file, please try again."
         else:
             error = "No photo was supplied."
@@ -85,10 +92,10 @@ def welcome():
 def empty():
     return render_template("empty.html")
 
-@app.route("/photos")
-#@login_required
-def photos():
-	return render_template("photos.html", photos=Photo.query.all())
+
+@app.route("/reported/<id>/photos")
+def photos(id):
+	return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
 
 @app.route("/counselor")
 def counselor():
@@ -114,7 +121,11 @@ def logout():
     logout_user()
     return redirect(url_for("welcome"))
 
-@app.route('/images/<path>')
-#@login_required
+@app.route("/images/<path>")
+>>>>>>> 81b3b44d1f9ce61a23a62427eeba3673334f9504
 def send_img(path):
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
+
+@app.route("/reported")
+def perps():
+    return render_template("perps.html", perps=Perpetrator.query.all())
