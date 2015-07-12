@@ -25,7 +25,7 @@
 
 <div class="container-fluid non-nav" id="empty">
   <div class="row mini-header">
-    <div class="col-md-3 location">PERSON > {{ perpname.upper() }}</div>
+    <div class="col-md-3 location">PERSON > {{ perp.name.upper() }}</div>
     <div class="col-md-offset-4 col-md-1">
       <button id="create-pdf" type="" data-toggle="modal">CREATE PDF</button>
     </div>
@@ -40,7 +40,9 @@
 
   <div class="row" id="create-dropdown">
     <div class="col-md-offset-1 col-md-7 create-blurb">
-      Select the photos you want to include in the PDF that we'll generate<br>for you. Need help understand the reporting process? <span class="link">Visit our FAQ.</span>
+      Please input the full name of the offender for the PDF we will generate for you:
+      <input id="full-name" class="input-field" type="text" name="full-name" placeholder="Full Name" data-perp="{{ perp.id }}">.
+      Need help understand the reporting process? <span class="link">Visit our FAQ.</span>
     </div>
     <div class="col-md-1">
       <button class="cancel" type="">CANCEL</button>
