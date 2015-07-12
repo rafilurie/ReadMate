@@ -92,7 +92,8 @@ def photos(id):
     except KeyError:
         return redirect(url_for("index"))
 
-    return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
+    perp = Perpetrator.query.get(id)
+    return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
 @app.route("/counselor")
 def counselor():

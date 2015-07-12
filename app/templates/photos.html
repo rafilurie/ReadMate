@@ -24,7 +24,7 @@
 
 <div class="container-fluid non-nav" id="empty">
   <div class="row mini-header">
-    <div class="col-md-3 location">Person > {perpname}</div>
+    <div class="col-md-3 location">Person > {{ perpname }}</div>
     <div class="col-md-offset-4 col-md-1">
       <button id="create-pdf" type="" data-toggle="modal">CREATE PDF</button>
     </div>
@@ -68,7 +68,7 @@
         <a href = "google.com"><img src ="{{ photo.get_url() }}" class="img-thumbnail" /></a>
       </div>
       <div class="row">
-        <div class="photo-date">{{ photo.created }}"</div>
+        <div class="photo-date">{{ photo.created.strftime("%m/%d/%Y") }}</div>
       </div>
     </div>
     {% endfor %}
