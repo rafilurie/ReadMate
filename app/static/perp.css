@@ -1,0 +1,27 @@
+.perp {
+	font-size: 36px;
+	line-height: 44px;
+	color: white;
+}
+
+.allperps {
+	text-align: center;
+}
+
+.circle:first-child {
+	margin-left: 0px;
+}
+.circle {
+	border-radius: 50%;
+	border: solid #CDCDD3 1px;
+	background: #CDCDD3;
+	width: 150px;
+	height: 150px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 200px;
+}
+
+.perp-container {
+	display: inline-block;
+}

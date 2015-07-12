@@ -35,8 +35,9 @@ def upload_file():
                 db_comment = Comment(request.form["content"], db_file.id)
                 if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).all():
                     db_perp = Perpetrator(request.form["name"], "", 1) # TODO: change to the current user's id
-                    db_file.perpetrator_id = db_perp.id
                     db.session.add(db_perp)
+                    db.session.flush()
+                    db_file.perpetrator_id = db_perp.id
                 else:
                     existing_perp = Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).one()
                     db_file.perpetrator_id = existing_perp.id
@@ -110,8 +111,9 @@ def photos(id):
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-    
-    return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
+
+    perp = Perpetrator.query.get(id)
+    return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
 @app.route("/counselor")
 def counselor():
