@@ -68,7 +68,7 @@
         <a href = "{{ photo.get_help_url() }}"><img src ="{{ photo.get_url() }}" class="img-thumbnail" /></a>
       </div>
       <div class="row">
-        <div class="photo-date">{{ photo.created.strftime("%m/%d/%Y") }}</div>
+        <div class="photo-date">{{ photo.when.strftime("%m/%d/%Y") }}</div>
       </div>
     </div>
     {% endfor %}

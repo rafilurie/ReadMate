@@ -29,17 +29,17 @@ def upload_file():
             try:
                 # add to database
                 extension = file.filename.rsplit(".", 1)[1]
-                db_file = Photo(extension, 1) # TODO: change this to the current user's id
+                db_file = Photo(extension, logged_in_user, datetime.strptime(request.form["date"], "%Y-%m-%d"))
                 db.session.add(db_file)
                 db.session.flush()
                 db_comment = Comment(request.form["content"], db_file.id)
-                if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).all():
-                    db_perp = Perpetrator(request.form["name"], "", 1) # TODO: change to the current user's id
+                if not Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == logged_in_user).all():
+                    db_perp = Perpetrator(request.form["name"], "", logged_in_user)
                     db.session.add(db_perp)
                     db.session.flush()
                     db_file.perpetrator_id = db_perp.id
                 else:
-                    existing_perp = Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == 1).one()
+                    existing_perp = Perpetrator.query.filter(Perpetrator.name == request.form["name"] and Perpetrator.user_id == logged_in_user).one()
                     db_file.perpetrator_id = existing_perp.id
                 db.session.add(db_file)
                 db.session.add(db_comment)
@@ -169,4 +169,5 @@ def perps():
     except KeyError:
         return redirect(url_for("index"))
 
-    return render_template("perps.html", perps=Perpetrator.query.all())
+    perps = User.query.get(logged_in_user).perpetrators.all()
+    return render_template("perps.html", perps=perps)

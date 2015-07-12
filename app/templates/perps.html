@@ -48,7 +48,7 @@
     	</div>
     	<div class="dates">
         {% if perp.photos.count() != 0 %}
-    		  <span class="date-text" >{{ perp.photos.first().created.strftime("%m/%d/%Y") }} - {{ perp.photos.all()[-1].created.strftime("%m/%d/%Y") }}</a>
+    		  <span class="date-text" >{{ perp.photos.first().when.strftime("%m/%d/%Y") }} - {{ perp.photos.all()[-1].when.strftime("%m/%d/%Y") }}</a>
         {% endif %}
     	</div>
     </div>
