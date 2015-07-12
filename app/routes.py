@@ -17,8 +17,12 @@ def index():
     return redirect(url_for("welcome"))
 
 @app.route("/upload", methods=["GET", "POST"])
-#@login_required
 def upload_file():
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
     if request.method == "POST":
         file = request.files["file"]
         if file:
@@ -53,21 +57,6 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
-@app.route("/welcome/counselor", methods=["GET", "POST"])
-def counselor_welcome():
-    try:
-        password = request.form["password"]
-        username = request.form["username"]
-    except:
-        return render_template("index.html", form=request.form)
-
-    if enforce_password_requirements(password) and validate_email(username):
-        db_user = User(request.form["username"], request.form["password"])
-        login_user(db_user)
-        db.session.add(db_user)
-        db.session.commit()
-        return redirect(url_for("empty"))
-    return render_template("index.html", form=request.form)
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
@@ -87,21 +76,39 @@ def welcome():
     return render_template("index.html", form=request.form)
 
 @app.route("/empty")
-#@login_required
 def empty():
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
     return render_template("empty.html")
 
 @app.route("/reported/<id>/photos")
 def photos(id):
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
 	return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
 
 @app.route("/counselor")
 def counselor():
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+
     return render_template("counselor.html")
 
 @app.route("/detail")
-#@login_required
 def detail():
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
     if request.method == "POST":
         try:
             photo = Photo.query.filter_by(id=id).first()
@@ -114,15 +121,29 @@ def detail():
     return render_template("detail.html")
 
 @app.route("/logout")
-#@login_required
 def logout():
     logout_user()
+    try:
+        del session["user_id"]
+    except KeyError:
+        pass
+
     return redirect(url_for("welcome"))
 
 @app.route("/images/<path>")
 def send_img(path):
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
 
 @app.route("/reported")
 def perps():
+    try:
+        logged_in_user = session["user_id"]
+    except:
+        return redirect(url_for("index"))
+
     return render_template("perps.html", perps=Perpetrator.query.all())
