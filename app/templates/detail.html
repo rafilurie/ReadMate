@@ -1,10 +1,35 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class = "container">
+<link href= '{{ url_for("static", filename="detail.css") }}' rel='stylesheet' />
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar navbar-default navbar-fixed-top navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a id="home-btn" class="navbar-brand custom-nav" href="/welcome">PRODUCT NAME</a>
+		</div>
+
+		<div>
+			<ul class="nav navbar-nav navbar-right">
+				<li id="signout"><a class ="custom-nav" href="/welcome">SIGN OUT</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+
+<div class = "container" id ="top-container">
 <div class="row">
-  <div class="col-md-4"><img src = '{{ url_for("static", filename="screenshot.jpg") }}' class="img-thumbnail" rel='stylesheet' /></div>
-  <div class="col-md-8">Chat goes here</div>
+  <div class="col-md-7"><img src = '{{ url_for("static", filename="screenshot.jpg") }}' id="large-image" rel='stylesheet' /></div>
+  <div class="col-md-5" id="get_help">
+  		<p id="head">GET HELP<p>
+  		<p id="subhead">Talk anonymously with an expert counselor about the screens you’ve selected. This conversation will be saved for your future reference.</p>
+  		<div class="avatar"><p>MB</p></div>
+  		<textarea rows="4" placeholder="Write something..."></textarea>
+  </div> 
 </div> 
 </div>
+
+
 {% endblock %}
