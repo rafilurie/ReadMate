@@ -113,7 +113,6 @@ def photos(id):
         return redirect(url_for("index"))
     
     perp = Perpetrator.query.get(id)
-    session["photo_ids"] = [photo.id for photo in perp.photos]
     return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
 @app.route("/counselor")

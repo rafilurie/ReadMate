@@ -6,6 +6,7 @@
 <link href= '{{ url_for("static", filename="photos.css") }}' rel='stylesheet' />
 <script src='{{ url_for("static", filename="btn_show.js") }}'></script>
 <script src='{{ url_for("static", filename="img_preview.js") }}'></script>
+<script src='{{ url_for("static", filename="img_border.js") }}'></script>
 
 <!-- NAVIGATION BAR -->
 <nav class="navbar navbar-default navbar-fixed-top navigation">
@@ -51,7 +52,7 @@
 
     <div class="row" id="help-dropdown">
       <div class="col-md-offset-1 col-md-7 create-blurb">
-        Select the photos you want to discuss anonymously with a counselor. The counselor will be abe to view the photos you select. Need help? <span class="link">Visit our FAQ.</span>
+        Select the photos you want to discuss anonymously with a counselor. The counselor will be able to view the photos you select. Need help? <span class="link">Visit our FAQ.</span>
       </div>
       <div class="col-md-1">
         <button class="cancel" type="">CANCEL</button>
@@ -65,7 +66,7 @@
     {% for photo in photos %}
     <div class = 'col-md-2 thumbnail-pckg'>
       <div class="row">
-        <a href = "{{ photo.get_help_url() }}"><img src ="{{ photo.get_url() }}" class="img-thumbnail" /></a>
+        <img data-detail="{{ photo.get_help_url() }}"src="{{ photo.get_url() }}" class="img-thumbnail" />
       </div>
       <div class="row">
         <div class="photo-date">{{ photo.when.strftime("%m/%d/%Y") }}</div>

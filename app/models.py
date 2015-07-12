@@ -94,7 +94,7 @@ class Photo(db.Model):
         return url
 
     def get_help_url(self):
-        url = "/detail/{}".format(self.id)
+        url = "/detail/{0}".format(self.id)
         return url
 
     def __repr__(self):
