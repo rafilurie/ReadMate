@@ -45,8 +45,8 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
+@app.route("/welcome", methods=["GET", "POST"])
+def welcome():
     try:
         password = request.form["password"]
         username = request.form["username"]
@@ -59,10 +59,6 @@ def login():
         db.session.commit()
         return redirect(url_for("empty"))
     return render_template("index.html", form=request.form)
-
-@app.route("/welcome")
-def welcome():
-    return render_template("index.html")
 
 @app.route("/empty")
 def empty():
