@@ -2,8 +2,18 @@ body{
 	background: -webkit-linear-gradient(left top, #DE6465, #F6C991);]
 }
 
+#advokit {
+	font-size: 30px;
+	color: white;
+	font-weight: 700;
+}
+
+.advokit-container {
+	margin-top: 30px;
+}
+
 #header-text {
-	margin-top: 20%;
+	margin-top: 11%;
 }
 
 h1 {
