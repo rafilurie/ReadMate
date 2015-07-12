@@ -178,3 +178,7 @@ body {
 	border: solid #F6C991 1px;
 	margin-left: 20px;
 }
+
+img.selected {
+	border: solid 7px #F6C991;
+}

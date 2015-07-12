@@ -111,3 +111,9 @@ body {
 	overflow-y:scroll;
 	margin-top: 10px;
 }
+
+div.comment {
+	border: 1px solid #F6C991;
+	border-radius: 5px;
+
+}

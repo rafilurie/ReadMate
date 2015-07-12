@@ -2,7 +2,7 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
-from flask import session, render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
+from flask import session, render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory, json
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -119,9 +119,8 @@ def photos(id):
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-    
+
     perp = Perpetrator.query.get(id)
-    session["photo_ids"] = [photo.id for photo in perp.photos]
     return render_template("photos.html", photos=perp.photos, perpname=perp.name)
 
 @app.route("/counselor")
@@ -141,6 +140,7 @@ def detail(id):
         return redirect(url_for("index"))
 
     photo = Photo.query.get(id)
+    perp = Perpetrator.query.filter(Perpetrator.id == photo.perpetrator_id).one()
 
     if request.method == "POST":
         try:
@@ -150,7 +150,21 @@ def detail(id):
         except:
             error = "Error saving file, please try again."
         return render_template("detail.html", error=error)
-    return render_template("detail.html", photo=photo.get_url(), comments=photo.comments)
+    return render_template("detail.html", photo=photo, comments=photo.comments, perpname=perp.name)
+
+@app.route("/comment/add/<id>", methods=["POST"])
+def add_comment(id):
+    comm = request.json.get('content')
+    db_comment = Comment(comm, id)
+    db.session.add(db_comment)
+    db.session.commit()
+    photo = Photo.query.get(id)
+    comments = []
+    for comment in photo.comments.all():
+        comments.append({ "created" : comment.created.strftime("%m/%d/%Y"), "content" : comment.content })
+
+    return json.dumps({'success': True, 'comments': comments}), 200, {'ContentType': 'application/json'}
+
 
 @app.route("/logout")
 def logout():
