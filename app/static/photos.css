@@ -2,29 +2,6 @@ body {
 	background: #FCFCFC !important;
 }
 
-.navbar {
-	font-family: Montserrat;
-	background: #DE6465 !important;
-	height: 80px;
-}
-
-
-#home-btn {
-	margin: 14px 0px 0px 80px;
-}
-
-#signout {
-	margin: 14px 80px 0px 0px;
-}
-
-.custom-nav {
-	color: white !important;
-}
-
-.mini-header {
-}
-
-
 #top-container {
 	border-bottom: solid #DE6465 1px;
 	margin-top: 80px;
@@ -39,5 +16,154 @@ body {
 
 }
 
+.thumbnail-pckg:first-child {
+	margin-left: 94px;
+} 
 
+.thumbnail-pckg {
+	width: 200px;
+	height: auto;
+	margin-right: 50px;
+	margin-top: 60px;
+}
 
+.thumbnail-pckg:last-child {
+
+}
+
+.photo-date {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.top-btn {
+	display: inline-block;
+}
+
+#get-help {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 94px;
+	font-size: 14px;
+	color: #F6C991;
+	background: white;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+}
+
+#get-help:hover {
+	color: white;
+	background: #F6C991;
+	opacity: .5;
+}
+
+#create-pdf {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 114px;
+	font-size: 14px;
+	color: #F6C991;
+	background: white;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+}
+
+#create-pdf:hover{
+	color: white;
+	background: #F6C991;
+	opacity: .5;
+}
+
+.help-parent {
+	margin-left: 15px;
+}
+
+#create-dropdown {
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15), 0 -5px 3px -10px #FFF;
+	color: #6B6B76;
+	height: 80px;
+	margin-top: -20px;
+}
+
+.create-blurb {
+	margin-left: 94px;
+	margin-top: 20px;
+}
+
+.link {
+	color: #F6C991;
+}
+
+.cancel {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 114px;
+	font-size: 14px;
+	color: #F6C991;
+	background: white;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+}
+
+.cancel:hover{
+	color: white;
+	background: #F6C991;
+	opacity: .5;
+}
+
+#download-pdf {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 155px;
+	font-size: 14px;
+	color: white;
+	background: #F6C991;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+	margin-left: 20px;
+}
+
+#help-dropdown {
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15), 0 -5px 3px -10px #FFF;
+	color: #6B6B76;
+	height: 80px;
+	margin-top: -20px;
+}
+
+.create-blurb {
+	margin-left: 94px;
+	margin-top: 20px;
+}
+
+.link {
+	color: #F6C991;
+}
+
+.cancel {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 114px;
+	font-size: 14px;
+	color: #F6C991;
+	background: white;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+}
+
+.cancel:hover{
+	color: white;
+	background: #F6C991;
+	opacity: .5;
+}
+
+#help-btn {
+	margin: 20px 0px 0px 0px;
+	height: 45px;
+	width: 155px;
+	font-size: 14px;
+	color: white;
+	background: #F6C991;
+	border-radius: 5px;
+	border: solid #F6C991 1px;
+	margin-left: 20px;
+}

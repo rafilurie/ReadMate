@@ -2,8 +2,7 @@ import os, time
 import cgi
 from app import app, db
 from flask.ext.login import login_user, logout_user
-from flask import render_template, session, request, jsonify, abort, Response, url_for, redirect, flash
-
+from flask import render_template, request, jsonify, abort, Response, url_for, redirect, flash, send_from_directory
 from flask_user import login_required
 from werkzeug import secure_filename
 from models import *
@@ -84,7 +83,6 @@ def empty():
         return redirect(url_for("index"))
 
     return render_template("empty.html")
-
 
 @app.route("/reported/<id>/photos")
 def photos(id):
