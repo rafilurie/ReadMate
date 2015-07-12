@@ -128,7 +128,7 @@ def photos(id):
         return redirect(url_for("index"))
 
     perp = Perpetrator.query.get(id)
-    return render_template("photos.html", photos=perp.photos, perpname=perp.name)
+    return render_template("photos.html", photos=perp.photos, perp=perp)
 
 @app.route("/counselor")
 def counselor():
@@ -183,10 +183,10 @@ def logout():
 
     return redirect(url_for("welcome"))
 
-@app.route("/pdf/<id>")
-def pdf(id):
+@app.route("/pdf/<id>/<name>")
+def pdf(id, name):
     perp = Perpetrator.query.get(id)
-    return render_template("pdf.html", perpname=perp.name, photos=perp.photos)
+    return render_template("pdf.html", perpname=name, photos=perp.photos)
 
 @app.route("/images/<path>")
 def send_img(path):

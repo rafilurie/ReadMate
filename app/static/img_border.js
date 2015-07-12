@@ -10,4 +10,12 @@ $(document).ready(function() {
             window.location.replace(detailUrl);
         }
     });
+
+    $("button#download-pdf").click(function() {
+        var name = $("input#full-name").val();
+        if (name == "") { name = "No Name" }
+        var id = $("input#full-name").data("perp");
+        var pdfUrl = "/pdf/" + id + "/" + name;
+        window.location.replace(pdfUrl);
+    });
 });
