@@ -79,7 +79,7 @@ def welcome():
 def empty():
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
 
     return render_template("empty.html")
@@ -88,10 +88,10 @@ def empty():
 def photos(id):
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
-
-	return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
+    
+    return render_template("photos.html", photos=Perpetrator.query.get(id).photos)
 
 @app.route("/counselor")
 def counselor():
@@ -106,12 +106,12 @@ def counselor():
 def detail():
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
 
     if request.method == "POST":
         try:
-            photo = Photo.query.filter_by(id=id).first()
+            photo = Photo.query.filter_by(id).first()
             db_comment = Comment(request.form["content"], photo.id)
             db.session.add(db_comment)
             db.session.commit()
@@ -134,7 +134,7 @@ def logout():
 def send_img(path):
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
 
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
@@ -143,7 +143,7 @@ def send_img(path):
 def perps():
     try:
         logged_in_user = session["user_id"]
-    except:
+    except KeyError:
         return redirect(url_for("index"))
 
     return render_template("perps.html", perps=Perpetrator.query.all())
