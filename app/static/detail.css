@@ -1,0 +1,111 @@
+body {
+	background: #FCFCFC;
+}
+
+.navbar {
+	font-family: Montserrat;
+	background: #DE6465;
+	height: 80px;
+}
+
+.help-body {
+	text-align: center;
+}
+
+#home-btn {
+	margin: 14px 0px 0px 80px;
+}
+
+#signout {
+	margin: 14px 80px 0px 0px;
+}
+
+.custom-nav {
+	color: white !important;
+}
+
+.mini-header {
+	margin-left: -29px;
+}
+
+#get_help{
+  height: 900px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  background: white;
+}
+
+#get_help textarea {
+  margin-left: 90px;
+  margin-top: -40;
+  border-radius: 5px;
+  width: 255px;
+  color: #cdcdd3;
+  font-family: Montserrat;
+  padding: 10px 0 0 12px;
+}
+
+#subhead {
+	border-bottom: none;
+	font-size: 14px;
+	text-align: center;
+	margin-top: 30px;
+	padding: 0 30px;
+	font-family: Montserrat;
+}
+
+#head {
+	text-align: center;
+	margin-top: 25px;
+	padding-bottom: 25px;
+	font-size: 22px;
+	border-bottom: 1px solid #CFCFD5;
+	font-family: Montserrat;
+	font-weight: bold;
+}
+
+#empty {
+	margin-top: 80px;
+	font-family: Montserrat;
+}
+
+.avatar{
+	width: 40px;
+	height: 40px;
+	border-radius: 100px; 
+	background-color: #F6C991;
+	margin-left: 30px;
+	margin-top: 24px;
+}
+
+.avatar p {
+	margin-left: 8px;
+  	padding-top: 10px;
+  	color: white;
+  	font-family: Montserrat;
+  	font-size: 14px;
+  	margin-top: 30px;
+}
+
+.comment-area {
+	margin-top: 50px;
+}
+
+#comment-submit-btn {
+	width: 200px;
+	height: 35px;
+	border: solid #F6C991 1px;
+	border-radius: 5px;
+	background: #F6C991;
+	color: white;
+	margin-top: 10px;
+	margin-left: 120px;
+}
+
+.textarea {
+	width: 300px;
+}
+.comments {
+	height: 330px;
+	overflow-y:scroll;
+	margin-top: 10px;
+}

@@ -37,7 +37,9 @@
     {% for perp in perps %}
     <div class="perp-container">
     	<div class="circle">
-    		<a class="perp" href="{{ perp.get_photo_url() }}">{{ perp.name }}</a>
+    		<div class="perp">
+    			<a class="perp" href="{{ perp.get_photo_url() }}">{{ perp.name }}</a>
+    		</div>
     	</div>
     	<div class="num-photos">
         {% if perp.photos.count() == 1 %}
