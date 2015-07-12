@@ -1,16 +1,33 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class = "container">
-<div class="jumbotron">
-    <h1>People</h1>
+<link href= '{{ url_for("static", filename="photos.css") }}' rel='stylesheet' />
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar navbar-default navbar-fixed-top navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a id="home-btn" class="navbar-brand custom-nav" href="/welcome">PRODUCT NAME</a>
+		</div>
+
+		<div>
+			<ul class="nav navbar-nav navbar-right">
+				<li id="signout"><a class ="custom-nav" href="/welcome">SIGN OUT</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div class = "container-fluid non-nav">
+	<h1> PEOPLE </h1>
     <!-- <p><button type="button" class="btn btn-info btn-primary" data-toggle="modal" data-target="#myModal">Upload a Photo</button></p> -->
-    <p><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Upload A Photo</button><p>
+    <div class="col-md-offset-10">
+		<button id="upload-btn" type="" data-toggle="modal" data-target="#myModal">UPLOAD A PHOTO</button>
+	</div>
     <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
     <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
     <a href = 'google.com'><img src = '{{ url_for("static", filename="cinqueterre.jpg") }}' class="img-thumbnail" rel='stylesheet' /></a>
     <a href = 'google.com'>	</a>
-</div>
 
   <!-- Trigger the modal with a button -->
 

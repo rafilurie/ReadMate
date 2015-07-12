@@ -55,9 +55,11 @@ class Perpetrator(db.Model):
     def __repr__(self):
         return '<Perpetrator %r, %r>' % (self.name, self.user_id)
 
-    def __init__(self, name, user_id):
+
+    def __init__(self, name, display_name, user_id):
         self.name = name
         self.user_id = user_id
+        self.display_name = display_name
         self.created = datetime.now()
 
 
@@ -75,6 +77,9 @@ class Photo(db.Model):
 
     # the user associated with this photo
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def list_comments(self):
+        return self.comments.all()
 
     def __repr__(self):
         return '<Photo %r, %r>' % (self.extension, self.user_id)
