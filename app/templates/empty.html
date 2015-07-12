@@ -31,7 +31,7 @@ Get help. Get prepared.</h1>
 	<div class="row valueprops">
 		<div class="col-md-3 col-md-offset-1 value">
 			<div class="row photo">
-				<img class="img" id="photo-upload-img" src="static/photo-upload.png" alt="Photo Upload">
+				<img class="img" id="photo-upload-img" src="{{ url_for('static', filename='photo-upload.png') }}" alt="Photo Upload">
 			</div>
 			<div class="row image-blurb">
 				Upload screenshots of<br>conversations that made<br>you feel uncomfortable.
@@ -39,7 +39,7 @@ Get help. Get prepared.</h1>
 		</div>
 		<div class="col-md-3 value">
 			<div class="row photo">
-				<img class="img" id="question-icon-img" src="static/question-icon.png" alt="Question">
+				<img class="img" id="question-icon-img" src="{{ url_for('static', filename='question-icon.png') }}" alt="Question">
 			</div>
 			<div class="row image-blurb">
 				Anonymously ask<br>counselors for help with<br>responding to messages.
@@ -47,7 +47,7 @@ Get help. Get prepared.</h1>
 		</div>
 		<div class="col-md-3 value">
 			<div class="row photo">
-				<img class="img" id="pdf-icon-img" src="static/pdf-icon.png" alt="PDF Icon">
+				<img class="img" id="pdf-icon-img" src="{{ url_for('static', filename='pdf-icon.png') }}" alt="PDF Icon">
 			</div>
 			<div class="row image-blurb">
 				Download a PDF of your<br>conversations if you'd<br>like to file a report.

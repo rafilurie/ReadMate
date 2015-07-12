@@ -1,6 +1,6 @@
 window.onload = function() {
     
-    var clickedBtn = 1;
+    var clickedBtn = 2;
 
     document.getElementById("signup-btn").onclick = function() {
         clickedBtn = 1;
