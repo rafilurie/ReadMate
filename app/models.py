@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask import url_for
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), nullable=False, unique=True)
@@ -28,8 +29,17 @@ class User(db.Model, UserMixin):
     def is_active(self):
         return self.is_enabled
 
+    def __init__(self, username, password):
+        self.email = username
+        self.username = username
+        self.password = password
+
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+    @classmethod
+    def get(cls,id):
+        return cls.user_database.get(id)
 
 
 class Perpetrator(db.Model):
@@ -46,6 +56,7 @@ class Perpetrator(db.Model):
 
     def __repr__(self):
         return '<Perpetrator %r, %r>' % (self.name, self.user_id)
+
 
     def __init__(self, name, display_name, user_id):
         self.name = name
