@@ -89,8 +89,8 @@ def login():
 
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
-    if "user_id" in session:
-        return redirect(url_for("empty"))
+    # if "user_id" in session:
+    #     return redirect(url_for("empty"))
     try:
         password = request.form["password"]
         username = request.form["username"]
@@ -116,7 +116,7 @@ def empty():
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
-    if User.query.get(logged_in_user).photos.count() != 0:
+    if User.query.get(logged_in_user).articles.count() != 0:
         return redirect(url_for("perps"))
     return render_template("empty.html")
 
@@ -203,6 +203,58 @@ def perps():
         logged_in_user = session["user_id"]
     except KeyError:
         return redirect(url_for("index"))
+    # articles = User.query.get(logged_in_user).articles.all()
+    articles = Article.query.all()
+    return render_template("perps.html", articles=articles)
 
-    perps = User.query.get(logged_in_user).perpetrators.all()
-    return render_template("perps.html", perps=perps)
+@app.route("/post", methods=["GET", "POST"])
+def post():
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        req_dic = json.loads(request.data)
+        
+        if request:
+            try:
+                # add to database
+                title = req_dic['title']
+                url = req_dic['url']
+                thing = Article(title, logged_in_user, url)
+                db.session.add(thing)
+                db.session.commit()
+                # db_file = Article(title, logged_in_user)
+                # print "DB_FILE", db_file
+                # try:
+                #     db_file.when = datetime.strptime(request.form["date"], "%Y-%m-%d")
+                # except:
+                #     pass
+                # db.session.add(db_file)
+                # db.session.flush()
+                # # db_comment = Comment(request.form["content"], db_file.id)
+                # if not Article.query.filter(Article.user_id == logged_in_user).all():
+                #     db_article = Article(title, url, logged_in_user)
+                #     db.session.add(article)
+                #     db.session.flush()
+                #     db_file.article_id = db_article.id
+                # else:
+                #     existing_article = Article.query.filter(Perpetrator.user_id == logged_in_user).one()
+                #     db_file.article_id = existing_article.id
+                # db.session.add(db_file)
+                # # db.session.add(db_comment)
+                # db.session.commit()
+
+                # save to file system
+                # filename = "{0}.{1}".format(db_file.id, extension)
+                # file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                # flash("Your photo was uploaded")
+
+                return redirect(url_for("perps"))
+            except:
+                error = "Error saving file, please try again."
+        else:
+            error = "No photo was supplied."
+        return render_template("upload_file.html", error=error)
+    return render_template("upload_file.html")

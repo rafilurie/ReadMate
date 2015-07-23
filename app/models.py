@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
 
     photos = db.relationship('Photo', backref='user', lazy='dynamic')
     perpetrators = db.relationship('Perpetrator', backref='user', lazy='dynamic')
+    articles = db.relationship('Article', backref='user', lazy='dynamic')
 
     def is_active(self):
         return self.is_enabled
@@ -41,6 +42,27 @@ class User(db.Model, UserMixin):
     def get(cls,id):
         return cls.user_database.get(id)
 
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    created = db.Column(db.DateTime())
+
+    # the user associated with this article
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    title = db.Column(db.String(40), nullable=False)
+    url = db.Column(db.String(40), nullable=False)
+
+    def __repr__(self):
+        return '<Article %r, %r>' % (self.title, self.user_id)
+
+    def get_article_url(self):
+        return self.url
+
+    def __init__(self, title, user_id, url):
+        self.title = title
+        self.user_id = user_id
+        self.url = url
+        self.created = datetime.now()
 
 class Perpetrator(db.Model):
     id = db.Column(db.Integer, primary_key=True)

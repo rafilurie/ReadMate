@@ -1,31 +1,37 @@
-
 {% extends "layout.html" %}
 
 {% block content %}
 <link href= '{{ url_for("static", filename="index.css") }}' rel='stylesheet' />
 <script src='{{ url_for("static", filename="signup_btn_login.js") }}'></script>
 
-<div class="container-fluid non-nav" id="index">
-	<div class='col-md-7'>
-		<div class="row">
-			<div class="advokit-container col-md-offset-2">
-				<span id="advokit">Advokit</span>
-			</div>
-		</div>
-		<div class="row">
-			<div id="header-text" class='col-md-offset-2'>
-				<h1>You don't deserve<br>to be harassed.</h1>
-				<h2>Collect screenshots of conversations that<br>make you uncomfortable. Get help with how<br>to respond. Download a PDF history if<br>you want to file a report.</h2>
-			</div>
-		</div>
-		<img id="iphone-img" src="{{ url_for('static', filename='iphone.png') }}" alt="iPhone">
-
+<div id="header">
+	<div id="logo-container">
+		<span id="logo-text" class="col-md-offset-1">ReadMate</span>
 	</div>
+</div>
+
+<div class="container-fluid">
+	
+	<!-- <div id="header">
+		<span id="logo-text" class="col-md-offset-1">ReadMate</span>
+	</div> -->
+
+	<div class='col-md-12'>
+		<div class="row" id="headline-container">
+			<h1>Your personalized newsroom.</h1>
+			<h2>See curated news about topics you're interested from experts that you trust.</h2>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<!-- <img id="iphone-img" src="{{ url_for('static', filename='iphone.png') }}" alt="iPhone"> -->
+	</div>
+		
 	<div class='col-md-5'>
 		<div id="homepage-box">
 			<div class="box-content">
-				<button id="signup-btn" type="">Sign Up</button>
-				<button id="login-btn" type="">Login</button>
+				<button id="signup-btn" class="btns" type="">Sign Up</button>
+				<button id="login-btn" class="btns" type="">Login</button>
 				<br>
 				<img id="signup-img" src="{{ url_for('static', filename='signup.png') }}" />
 				<div id="privacy-assurance">
@@ -34,12 +40,15 @@
 				<form action="" method="post">
 					<input class="login-input" type="text" name="username" id="username" placeholder="Email address">
 					<input class="login-input" type="password" name="password" id="password" placeholder="Password">
+					<!-- <input class="login-input" type="password" name="emergency-password" id="emergency-password" placeholder="Emergency Password"> -->
 					<br>
 					<input id="login-submit-btn" type="submit" value="GET STARTED">
 				</form>
 			</div>
 		</div>
 	</div>
+
 </div>
 
 {% endblock %}
+

@@ -1,55 +1,57 @@
 window.onload = function() {
     
-    var clickedBtn = 1;
+    var COLOR = '#6D6D6D';
+    var SIGNUP = 1;
+    var LOGIN = 2;
 
     document.getElementById("signup-btn").onclick = function() {
-        clickedBtn = 1;
+        clickedBtn = SIGNUP;
         window.location.href='/welcome';
     }
 
     document.getElementById("login-btn").onclick = function() {
-        clickedBtn = 2;
+        clickedBtn = LOGIN;
         window.location.href='/welcome/login';
     }
 
     document.getElementById("signup-btn").onmouseover = function() {
-        this.style.backgroundColor = "#F6C991";
+        this.style.backgroundColor = COLOR;
         this.style.color = "white";
         document.getElementById("login-btn").style.backgroundColor = "white";
-        document.getElementById("login-btn").style.color = "#F6C991";
+        document.getElementById("login-btn").style.color = COLOR;
     }
 
     document.getElementById("login-btn").onmouseover = function() {
-        this.style.backgroundColor = "#F6C991";
+        this.style.backgroundColor = COLOR;
         this.style.color = "white";
         document.getElementById("signup-btn").style.backgroundColor = "white";
-        document.getElementById("signup-btn").style.color = "#F6C991";
+        document.getElementById("signup-btn").style.color = COLOR;
     }
 
     document.getElementById("signup-btn").onmouseout = function() {
-        if (clickedBtn == 1) {
-            this.style.backgroundColor = "#F6C991";
+        if (clickedBtn == SIGNUP) {
+            this.style.backgroundColor = COLOR;
             this.style.color = "white";
             document.getElementById("login-btn").style.backgroundColor = "white";
-            document.getElementById("login-btn").style.color = "#F6C991";
+            document.getElementById("login-btn").style.color = COLOR;
         } else {
             this.style.backgroundColor = "white";
-            this.style.color = "#F6C991";
-            document.getElementById("login-btn").style.backgroundColor = "#F6C991";
+            this.style.color = COLOR;
+            document.getElementById("login-btn").style.backgroundColor = COLOR;
             document.getElementById("login-btn").style.color = "white";
         }
     }
 
     document.getElementById("login-btn").onmouseout = function() {
-        if (clickedBtn == 2) {
-            this.style.backgroundColor = "#F6C991";
+        if (clickedBtn == LOGIN) {
+            this.style.backgroundColor = COLOR;
             this.style.color = "white";
             document.getElementById("signup-btn").style.backgroundColor = "white";
-            document.getElementById("signup-btn").style.color = "#F6C991";
+            document.getElementById("signup-btn").style.color = COLOR;
         } else {
             this.style.backgroundColor = "white";
-            this.style.color = "#F6C991";
-            document.getElementById("signup-btn").style.backgroundColor = "#F6C991";
+            this.style.color = COLOR;
+            document.getElementById("signup-btn").style.backgroundColor = COLOR;
             document.getElementById("signup-btn").style.color = "white";
         }
     }
