@@ -10,7 +10,6 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, server_default='')
-    jeopardy_password = db.Column(db.String(255), nullable=False, server_default='password')
 
     reset_password_token = db.Column(db.String(100), nullable=False, server_default='')
 
@@ -38,6 +37,9 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return '<User %r>' % (self.username)
 
+    def get_profile_url(self):
+        return "/{0}".format(self.id)
+
     @classmethod
     def get(cls,id):
         return cls.user_database.get(id)
@@ -57,6 +59,9 @@ class Article(db.Model):
 
     def get_article_url(self):
         return self.url
+
+    def get_article_user(self):
+        return User.query.filter(User.id == self.user_id).first()
 
     def __init__(self, title, user_id, url):
         self.title = title
@@ -81,8 +86,8 @@ class Perpetrator(db.Model):
     def __repr__(self):
         return '<Perpetrator %r, %r>' % (self.name, self.user_id)
 
-    def get_photo_url(self):
-        return "/reported/{0}/photos".format(self.id)
+    # def get_photo_url(self):
+    #     return "/reported/{0}/photos".format(self.id)
 
     def __init__(self, name, display_name, user_id):
         self.name = name

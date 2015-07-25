@@ -7,6 +7,8 @@
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href= '{{ url_for("static", filename="layout.css") }}' rel='stylesheet' />
+
 
 <title>{{ title or "ReadMate"}}</title>
 </head>
@@ -14,9 +16,9 @@
 <body>
   {% with messages = get_flashed_messages() %}
     {% if messages %}
-      <ul class="flashes">
+      <ul class="flashes flash-container">
       {% for message in messages %}
-        <li>{{ message }}</li>
+        <li class="flash-message">{{ message }}</li>
       {% endfor %}
       </ul>
     {% endif %}

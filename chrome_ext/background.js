@@ -31,18 +31,18 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 // add click event
 chrome.contextMenus.onClicked.addListener(onClickHandler);
 
-// The onClicked callback function.
-function onClickHandler(info, tab) {
-    var data, title;
-    // construct an HTTP request
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-        title = getTitle(xhr.responseText);
-        data = { title: title, url: info.linkUrl };
-        postHelper(xhr, POST_ROUTE, data);
-        flashIcon();
-        }
+    // The onClicked callback function.
+    function onClickHandler(info, tab) {
+        var data, title;
+        // construct an HTTP request
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            title = getTitle(xhr.responseText);
+            data = { title: title, url: info.linkUrl };
+            postHelper(xhr, POST_ROUTE, data);
+            flashIcon();
+            }
     }
     xhr.open("GET", info.linkUrl, true);
     xhr.send();

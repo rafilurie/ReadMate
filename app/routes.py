@@ -12,9 +12,147 @@ from login import enforce_password_requirements
 from validate_email import validate_email
 from datetime import datetime
 
+# REDIRECT TO HOMEPAGE
 @app.route("/")
 def index():
     return redirect(url_for("welcome"))
+
+# HOMEPAGE
+@app.route("/welcome", methods=["GET", "POST"])
+def welcome():
+    if "user_id" in session:
+        return redirect(url_for("empty"))
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("index.html", form=request.form, error="No username or password provided.")
+
+    if enforce_password_requirements(password) and validate_email(username):
+        in_db = User.query.filter(User.username == username).all()
+        if in_db:
+            return render_template("index.html", form=request.form, error="User with that username already exists.")
+
+        db_user = User(request.form["username"], request.form["password"])
+        login_user(db_user)
+        db.session.add(db_user)
+        db.session.commit()
+        session["user_id"] = db_user.id
+        return redirect(url_for("empty"))
+    return render_template("index.html", form=request.form)
+
+# LOGIN
+@app.route("/welcome/login", methods=["GET", "POST"])
+def login():
+    try:
+        password = request.form["password"]
+        username = request.form["username"]
+    except:
+        return render_template("login.html", form=request.form, error="No username or password provided.")
+
+    jeopardy_password = "emergency"
+
+    if enforce_password_requirements(password) and validate_email(username):        
+        if password == jeopardy_password:
+            return render_template("empty.html")
+        
+        db_user = User.query.filter(User.username == username and User.password == password).first()
+
+        if not db_user:
+            return render_template("login.html", form=request.form, error="No user associated with that username and password.")
+        print "WE ARE HRE"
+        login_user(db_user)
+        db.session.add(db_user)
+        db.session.commit()
+        session["user_id"] = db_user.id
+        return redirect(url_for("empty"))
+    return render_template("login.html", form=request.form)
+
+# LOGOUT
+@app.route("/logout")
+def logout():
+    logout_user()
+    try:
+        del session["user_id"]
+    except KeyError:
+        pass
+
+    return redirect(url_for("welcome"))
+
+# EMPTY - HAVE NOT UPLOADED ANY ARTICLES
+@app.route("/empty")
+def empty():
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+    if User.query.get(logged_in_user).articles.count() != 0:
+        return redirect(url_for("perps"))
+    return render_template("empty.html")
+
+# POST FOR CHROME EXTENSION TO ADD DB TO ARTICLE
+@app.route("/post", methods=["GET", "POST"])
+def post():
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+
+    if request.method == "POST":
+        req_dic = json.loads(request.data)
+        
+        if request:
+            try:
+                
+                # Check that I have not already uploaded the article
+                if Article.query.filter(Article.user_id == logged_in_user and Article.title == req_dic['title']):
+                    flash("You have already uploaded this article.")
+                    return redirect(url_for("perps"))
+                else:
+
+                    # Add article to database
+                    title = req_dic['title']
+                    url = req_dic['url']
+                    thing = Article(title, logged_in_user, url)
+                    db.session.add(thing)
+                    db.session.flush()
+
+                    db.session.commit()
+
+                return redirect(url_for("perps"))
+            except:
+                error = "Error adding article, please try again."
+        else:
+            error = "No article was supplied."
+        return redirect(url_for("empty"))
+    return redirect(url_for("empty"))
+
+# FEED OF ARTICLES
+@app.route("/reported")
+def perps():
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+    # articles = User.query.get(logged_in_user).articles.all()
+    articles = Article.query.order_by(Article.created.desc()).all()
+    return render_template("perps.html", articles=articles, curr_time=datetime.now())
+
+
+# PROFILE PAGE
+@app.route("/<id>")
+def profile(id):
+    try:
+        logged_in_user = session["user_id"]
+    except KeyError:
+        return redirect(url_for("index"))
+    articles = Article.query.filter(Article.user_id == id).order_by(Article.created.desc()).all()
+    user = User.query.filter(User.id == id).first()
+
+    return render_template("profile.html", articles=articles, curr_time=datetime.now(), user=user)
+
+
+###################################################################################################################
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_file():
@@ -61,74 +199,16 @@ def upload_file():
         return render_template("upload_file.html", error=error)
     return render_template("upload_file.html")
 
-@app.route("/welcome/login", methods=["GET", "POST"])
-def login():
-    try:
-        password = request.form["password"]
-        username = request.form["username"]
-    except:
-        return render_template("login.html", form=request.form, error="No username or password provided.")
 
-    jeopardy_password = "emergency"
+# @app.route("/reported/<id>/photos")
+# def photos(id):
+#     try:
+#         logged_in_user = session["user_id"]
+#     except KeyError:
+#         return redirect(url_for("index"))
 
-    if enforce_password_requirements(password) and validate_email(username):        
-        if password == jeopardy_password:
-            return render_template("empty.html")
-        
-        db_user = User.query.filter(User.username == username and User.password == password).first()
-
-        if not db_user:
-            return render_template("login.html", form=request.form, error="No user associated with that username and password.")
-        print "WE ARE HRE"
-        login_user(db_user)
-        db.session.add(db_user)
-        db.session.commit()
-        session["user_id"] = db_user.id
-        return redirect(url_for("empty"))
-    return render_template("login.html", form=request.form)
-
-@app.route("/welcome", methods=["GET", "POST"])
-def welcome():
-    # if "user_id" in session:
-    #     return redirect(url_for("empty"))
-    try:
-        password = request.form["password"]
-        username = request.form["username"]
-    except:
-        return render_template("index.html", form=request.form, error="No username or password provided.")
-
-    if enforce_password_requirements(password) and validate_email(username):
-        in_db = User.query.filter(User.username == username).all()
-        if in_db:
-            return render_template("index.html", form=request.form, error="User with that username already exists.")
-
-        db_user = User(request.form["username"], request.form["password"])
-        login_user(db_user)
-        db.session.add(db_user)
-        db.session.commit()
-        session["user_id"] = db_user.id
-        return redirect(url_for("empty"))
-    return render_template("index.html", form=request.form)
-
-@app.route("/empty")
-def empty():
-    try:
-        logged_in_user = session["user_id"]
-    except KeyError:
-        return redirect(url_for("index"))
-    if User.query.get(logged_in_user).articles.count() != 0:
-        return redirect(url_for("perps"))
-    return render_template("empty.html")
-
-@app.route("/reported/<id>/photos")
-def photos(id):
-    try:
-        logged_in_user = session["user_id"]
-    except KeyError:
-        return redirect(url_for("index"))
-
-    perp = Perpetrator.query.get(id)
-    return render_template("photos.html", photos=perp.photos, perp=perp)
+#     perp = Perpetrator.query.get(id)
+#     return render_template("photos.html", photos=perp.photos, perp=perp)
 
 @app.route("/counselor")
 def counselor():
@@ -173,16 +253,6 @@ def add_comment(id):
     return json.dumps({'success': True, 'comments': comments}), 200, {'ContentType': 'application/json'}
 
 
-@app.route("/logout")
-def logout():
-    logout_user()
-    try:
-        del session["user_id"]
-    except KeyError:
-        pass
-
-    return redirect(url_for("welcome"))
-
 @app.route("/pdf/<id>/<name>")
 def pdf(id, name):
     perp = Perpetrator.query.get(id)
@@ -197,64 +267,3 @@ def send_img(path):
 
     return send_from_directory(app.config["UPLOAD_FOLDER"], path)
 
-@app.route("/reported")
-def perps():
-    try:
-        logged_in_user = session["user_id"]
-    except KeyError:
-        return redirect(url_for("index"))
-    # articles = User.query.get(logged_in_user).articles.all()
-    articles = Article.query.all()
-    return render_template("perps.html", articles=articles)
-
-@app.route("/post", methods=["GET", "POST"])
-def post():
-    try:
-        logged_in_user = session["user_id"]
-    except KeyError:
-        return redirect(url_for("index"))
-
-    if request.method == "POST":
-        req_dic = json.loads(request.data)
-        
-        if request:
-            try:
-                # add to database
-                title = req_dic['title']
-                url = req_dic['url']
-                thing = Article(title, logged_in_user, url)
-                db.session.add(thing)
-                db.session.commit()
-                # db_file = Article(title, logged_in_user)
-                # print "DB_FILE", db_file
-                # try:
-                #     db_file.when = datetime.strptime(request.form["date"], "%Y-%m-%d")
-                # except:
-                #     pass
-                # db.session.add(db_file)
-                # db.session.flush()
-                # # db_comment = Comment(request.form["content"], db_file.id)
-                # if not Article.query.filter(Article.user_id == logged_in_user).all():
-                #     db_article = Article(title, url, logged_in_user)
-                #     db.session.add(article)
-                #     db.session.flush()
-                #     db_file.article_id = db_article.id
-                # else:
-                #     existing_article = Article.query.filter(Perpetrator.user_id == logged_in_user).one()
-                #     db_file.article_id = existing_article.id
-                # db.session.add(db_file)
-                # # db.session.add(db_comment)
-                # db.session.commit()
-
-                # save to file system
-                # filename = "{0}.{1}".format(db_file.id, extension)
-                # file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-                # flash("Your photo was uploaded")
-
-                return redirect(url_for("perps"))
-            except:
-                error = "Error saving file, please try again."
-        else:
-            error = "No photo was supplied."
-        return render_template("upload_file.html", error=error)
-    return render_template("upload_file.html")

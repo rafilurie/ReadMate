@@ -6,35 +6,24 @@
 <link href= '{{ url_for("static", filename="modal.css") }}' rel='stylesheet' />
 <script src='{{ url_for("static", filename="img_preview.js") }}'></script>
 
-<!-- NAVIGATION BAR -->
-<nav class="navbar navbar-default navbar-fixed-top navigation">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a id="home-btn" class="navbar-brand custom-nav" href="/welcome">ADVOKIT</a>
-		</div>
-
-		<div>
-			<ul class="nav navbar-nav navbar-right">
-				<li id="signout"><a class ="custom-nav" href="/logout">SIGN OUT</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
+{% include 'navbar_partial.html' %}
 
 <div class="container-fluid non-nav" id="empty">
-	<div class="col-md-offset-10">
+
+<!-- 	<div class="col-md-offset-10">
 		<button id="upload-btn" type="" data-toggle="modal" data-target="#myModal">UPLOAD A PHOTO</button>
 	</div>
-	<hr>
-	<h1 class="col-md-8 col-md-offset-2">Fight back against harrassment.<br>
-Get help. Get prepared.</h1>
+	<hr> -->
+
+	<h1 class="col-md-8 col-md-offset-2">You don't have any content yet.<br>Follow these steps to get started.</h1>
+
 	<div class="row valueprops">
 		<div class="col-md-3 col-md-offset-1 value">
 			<div class="row photo">
 				<img class="img" id="photo-upload-img" src="{{ url_for('static', filename='photo-upload.png') }}" alt="Photo Upload">
 			</div>
 			<div class="row image-blurb">
-				Upload screenshots of<br>conversations that made<br>you feel uncomfortable.
+				Download the Chrome Extension
 			</div>
 		</div>
 		<div class="col-md-3 value">
@@ -42,7 +31,7 @@ Get help. Get prepared.</h1>
 				<img class="img" id="question-icon-img" src="{{ url_for('static', filename='question-icon.png') }}" alt="Question">
 			</div>
 			<div class="row image-blurb">
-				Anonymously ask<br>counselors for help with<br>responding to messages.
+				Add Content
 			</div>
 		</div>
 		<div class="col-md-3 value">
@@ -50,7 +39,7 @@ Get help. Get prepared.</h1>
 				<img class="img" id="pdf-icon-img" src="{{ url_for('static', filename='pdf-icon.png') }}" alt="PDF Icon">
 			</div>
 			<div class="row image-blurb">
-				Download a PDF of your<br>conversations if you'd<br>like to file a report.
+				Read from your friends,<br> follow thought leaders
 			</div>
 		</div>
 
@@ -66,10 +55,10 @@ Get help. Get prepared.</h1>
 		{% endfor %}
 	</div> -->
 
-	<div class="modal fade" id="myModal" role="dialog">
+	<!-- <div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog">
 
-	    	<!-- Modal content-->
+	    	//MODAL CONTENT
 	    	<div class="modal-content">
 
 	    		<div class="modal-header">
@@ -118,10 +107,10 @@ Get help. Get prepared.</h1>
 	    		</form>
 
 	    	</div>
-	    	<!-- MODAL ENDS -->
+	    	//MODAL ENDS
 
 	    </div>
-	</div>
+	</div> -->
 
 </div>
 
