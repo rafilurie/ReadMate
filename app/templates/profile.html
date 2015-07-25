@@ -12,7 +12,18 @@
 
     <div class="col-md-12">
 
-        <h1>{{ user.username }}</h1>
+        <h1>User: {{ user.username }}</h1>
+
+        <p>
+        {{ user.followers.count() }} followers
+        {% if user.id == me.id %}
+            <a>Edit your profile</a>
+        {% elif not me.is_following(user) %}
+            <a href="{{ url_for('follow', username=user.username) }}">Follow</a>
+        {% else %}
+            <a href="{{ url_for('unfollow', username=user.username) }}">Unfollow</a>
+        {% endif %}
+        </p>
 
         <div class="articles-container col-md-8 col-md-offset-2">
             

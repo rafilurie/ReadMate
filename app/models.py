@@ -5,6 +5,13 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from flask import url_for
 
+# Following.followers association table
+
+followers = db.Table('followers', 
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')), 
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')), 
+    db.Column('created', db.DateTime())
+)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,9 +29,18 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(100), nullable=False, server_default='')
     last_name = db.Column(db.String(100), nullable=False, server_default='')
 
-    photos = db.relationship('Photo', backref='user', lazy='dynamic')
-    perpetrators = db.relationship('Perpetrator', backref='user', lazy='dynamic')
-    articles = db.relationship('Article', backref='user', lazy='dynamic')
+    # photos = db.relationship('Photo', backref='user', lazy='dynamic')
+    # perpetrators = db.relationship('Perpetrator', backref='user', lazy='dynamic')
+    # articles = db.relationship('Article', backref='user', lazy='dynamic')
+
+    followed = db.relationship(
+        'User', 
+        secondary=followers, 
+        primaryjoin=(followers.c.follower_id == id), 
+        secondaryjoin=(followers.c.followed_id == id), 
+        backref=db.backref('followers', lazy='dynamic'), 
+        lazy='dynamic'
+    )
 
     def is_active(self):
         return self.is_enabled
@@ -39,6 +55,22 @@ class User(db.Model, UserMixin):
 
     def get_profile_url(self):
         return "/{0}".format(self.id)
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+            return self
+
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+    def followed_posts(self):
+        return Article.query.join(followers, (followers.c.followed_id == Article.user_id)).filter(followers.c.follower_id == self.id).order_by(Article.created.desc())
 
     @classmethod
     def get(cls,id):
@@ -68,6 +100,9 @@ class Article(db.Model):
         self.user_id = user_id
         self.url = url
         self.created = datetime.now()
+
+
+####################################################################################################################################
 
 class Perpetrator(db.Model):
     id = db.Column(db.Integer, primary_key=True)
